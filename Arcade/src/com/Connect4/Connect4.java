@@ -2,7 +2,6 @@ package com.Connect4;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.concurrent.ThreadLocalRandom;
 
 import javax.swing.*;
 import javax.swing.SwingUtilities;
@@ -51,7 +50,9 @@ public class Connect4 extends Game{
     }
 
     public void exit(){
-        frame.dispose();
+        System.out.println(b.turn.name() + " wins!");
+        System.out.println(b);
+        // frame.dispose();
     }
 
     public String getDescription(){
@@ -63,7 +64,8 @@ public class Connect4 extends Game{
     }
 
     public int computerMove(){
-        return ThreadLocalRandom.current().nextInt(0, 7);
+        // return ThreadLocalRandom.current().nextInt(0, 7);
+        return Connec4AI.computerMove(b);
     }
     private class BoardPanel extends JPanel{
 
@@ -129,7 +131,7 @@ public class Connect4 extends Game{
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    if(b.board[(id%width)+(width)].color == Color.NONE){
+                    if(b.board[(id%width)].color == Color.NONE){
                         boardPanel.piecePanels[id%width].setBackground(b.turn.getColor());
 
                     }
