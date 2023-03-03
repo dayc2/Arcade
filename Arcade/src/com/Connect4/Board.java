@@ -14,6 +14,12 @@ public class Board {
     public int lastDrop;
 
     Board(){
+        this(7, 6);
+    }
+
+    Board(int width, int height){
+        this.height = height;
+        this.width = width;
         turn = Color.RED;
         board = new Piece[height*width];
         for (int i = 0; i < board.length; i++) {
@@ -22,9 +28,7 @@ public class Board {
     }
 
     Board(Board b){
-        this();
-        this.height = b.height;
-        this.width = b.width;
+        this(b.width, b.height);
         this.turn = b.turn;
         // System.arraycopy(b.board, 0, this.board, 0, b.board.length);
         for (int i = 0; i < b.board.length; i++) {
@@ -89,7 +93,7 @@ public class Board {
 
     private boolean checkDiagonalRight(int pos) {
         for (int i = 0; i < 5; i++) {
-            if((pos-(width+1)*(3-i))%width < 4 && (pos-(width+1)*(3-i)) >= 0 && (pos+(width+1)*(i)) < board.length){
+            if((pos-(width+1)*(3-i))%width < width-3 && (pos-(width+1)*(3-i)) >= 0 && (pos+(width+1)*(i)) < board.length){
                 for (int j = pos-(width+1)*(3-i); j <= pos+(width+1)*(i); j+=(width+1)) {
                     if(board[j].color != board[pos].color){
                         break;
@@ -103,7 +107,7 @@ public class Board {
 
     private boolean checkDiagonalLeft(int pos) { 
         for (int i = 0; i < 5; i++) {
-            if((pos+(width-1)*(3-i))%width < 4 && (pos+(width-1)*(3-i)) < board.length && (pos-(width-1)*(i)) >= 0){
+            if((pos+(width-1)*(3-i))%width < width-3 && (pos+(width-1)*(3-i)) < board.length && (pos-(width-1)*(i)) >= 0){
                 for (int j = pos+(width-1)*(3-i); j >= pos-(width-1)*(i); j-=(width-1)) {
                     if(board[j].color != board[pos].color){
                         break;
@@ -117,7 +121,7 @@ public class Board {
 
     private boolean checkHorizontal(int pos) {
         for (int i = 0; i < 5; i++) {
-            if((pos + i - 3)% width < 4 && pos + i < board.length && pos+i-3 >= 0)
+            if((pos + i - 3)% width < width-3 && pos + i < board.length && pos+i-3 >= 0)
                 for (int j = pos+i-3; j < pos+i+1; j++) {
                     if(board[j].color != board[pos].color){
                         break;

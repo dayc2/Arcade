@@ -17,33 +17,41 @@ public class Connect4 extends Game{
     private BoardPanel boardPanel;
 
     private Board b;
-    private int width = 7;
-    private int height = 6;
+    private int width;
+    private int height;
 
     private int players = 1;
 
     private java.awt.Color selecedColor = new java.awt.Color(150, 150, 150);
     private java.awt.Color unselecedColor = new java.awt.Color(0, 0, 0);
+    private java.awt.Color backgroundColor = new java.awt.Color(20, 20, 200);
 
     public Connect4(){
+        this(7, 6);
     }
-
+    
+    public Connect4(int width, int height){
+        this.width = width;
+        this.height = height;
+    }
     public String toString(){
         return b.toString();
     }
 
     
     public void run(int players){
+        b = new Board(width, height);
+
         frame = new JFrame();
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        frame.setSize(new Dimension(width*100, height*100));
+        frame.getContentPane().setPreferredSize(new Dimension(width*100, height*100));
+        frame.pack();
         boardPanel = new BoardPanel(height, width);
         frame.add(boardPanel);
         frame.setVisible(true);
 
         this.players=players%2;
 
-        b = new Board();
 
         running = true;
 
@@ -73,6 +81,7 @@ public class Connect4 extends Game{
 
         public BoardPanel(int height, int width){
             setLayout(new GridLayout(height, width));
+            setSize(new Dimension(width*100, height*100));
             setBackground(new java.awt.Color(32, 32, 32));
             setDoubleBuffered(true);
             piecePanels = new PiecePanel[height*width];
@@ -85,20 +94,22 @@ public class Connect4 extends Game{
         }
 
         public void updateColor(int id){
-            piecePanels[id].setBackground(b.board[id].color.getColor());
-        }        
+            piecePanels[id].color = b.board[id].color.getColor();
+            piecePanels[id].repaint();
+        }
     }
 
     private class PiecePanel extends JPanel{
 
         private int id;
 
+        private java.awt.Color color = unselecedColor;
+
         public PiecePanel(int id){
             super(new GridBagLayout());
             this.id = id;
-            setBackground(unselecedColor);
+            setBackground(backgroundColor);
             // setPreferredSize(new Dimension(10, 10));
-            setBackground(getBackground());
             addMouseListener(new MouseListener(){
 
                 @Override
@@ -132,12 +143,11 @@ public class Connect4 extends Game{
                 @Override
                 public void mouseEntered(MouseEvent e) {
                     if(b.board[(id%width)].color == Color.NONE){
-                        boardPanel.piecePanels[id%width].setBackground(b.turn.getColor());
-
+                        boardPanel.piecePanels[id%width].color = (b.turn.getColor());
                     }
                     for (int i = 1; i < height; i++) {
                         if(b.board[(id%width)+(i*width)].color == Color.NONE){
-                            boardPanel.piecePanels[(id%width)+(i*width)].setBackground(selecedColor);
+                            boardPanel.piecePanels[(id%width)+(i*width)].color = selecedColor;
                         }
                     }
 
@@ -153,7 +163,7 @@ public class Connect4 extends Game{
                 @Override
                 public void mouseExited(MouseEvent e) {
                     for (int i = 0; i < height; i++) {
-                        if(b.board[(id%width)+(i*width)].color == Color.NONE) boardPanel.piecePanels[(id%width)+(i*width)].setBackground(unselecedColor);
+                        if(b.board[(id%width)+(i*width)].color == Color.NONE) boardPanel.piecePanels[(id%width)+(i*width)].color = unselecedColor;
                     }
                     SwingUtilities.invokeLater(() -> {
                         for (PiecePanel p : boardPanel.piecePanels) {
@@ -166,5 +176,12 @@ public class Connect4 extends Game{
         }
 
         public int getId(){return id;}
+
+        public void paintComponent(Graphics g){
+            g = (Graphics2D) g;
+            super.paintComponent(g);
+            g.setColor(color);
+            g.fillOval(0, 0, this.getWidth()-1, this.getWidth()-1);
+        }
     }
 }

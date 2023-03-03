@@ -13,21 +13,17 @@ public class Connec4AI {
 
     static int computerMove(Board b, int depth){
         list.clear();
-        list.add(0);
-        list.add(1);
-        list.add(2);
-        list.add(3);
-        list.add(4);
-        list.add(5);
-        list.add(6);
-        return max(b, b.turn, 7, depth).first;
+        for (int i = 0; i < b.width; i++) {
+            list.add(i);
+        }
+        return max(b, b.turn, -1, depth).first;
     }
 
     static Pair<Integer, Integer> max(Board b, Color c, Integer lastMove, int depth){
         // Base Case
         if(b.winner){
-            if(b.turn == c) return new Pair<Integer,Integer>(lastMove, depth);
-            if(b.turn == c.next()) return new Pair<Integer,Integer>(lastMove, -depth);
+            if(b.turn == c) return new Pair<Integer,Integer>(lastMove, depth+1);
+            if(b.turn == c.next()) return new Pair<Integer,Integer>(lastMove, -depth-1);
             return new Pair<Integer, Integer>(lastMove, 0);
         }
         if(depth <= 0){
@@ -55,8 +51,8 @@ public class Connec4AI {
     static Pair<Integer, Integer> min(Board b, Color c, int lastMove, int depth){
         // Base Case
         if(b.winner){
-            if(b.turn == c) return new Pair<Integer,Integer>(lastMove, depth);
-            if(b.turn == c.next()) return new Pair<Integer,Integer>(lastMove, -depth);
+            if(b.turn == c) return new Pair<Integer,Integer>(lastMove, depth+1);
+            if(b.turn == c.next()) return new Pair<Integer,Integer>(lastMove, -depth-1);
             return new Pair<Integer, Integer>(lastMove, 0);
         }
         if(depth <= 0){
