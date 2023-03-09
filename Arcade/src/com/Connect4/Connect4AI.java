@@ -3,7 +3,7 @@ package com.Connect4;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Connec4AI {
+public class Connect4AI {
 
     private static ArrayList<Integer> list = new ArrayList<>();
     

@@ -23,7 +23,7 @@ public class Connect4 extends Game{
     private int players = 1;
 
     private java.awt.Color selecedColor = new java.awt.Color(150, 150, 150);
-    private java.awt.Color unselecedColor = new java.awt.Color(0, 0, 0);
+    private java.awt.Color unselecedColor = new java.awt.Color(220, 220, 220);
     private java.awt.Color backgroundColor = new java.awt.Color(20, 20, 200);
 
     public Connect4(){
@@ -41,8 +41,12 @@ public class Connect4 extends Game{
     
     public void run(int players){
         b = new Board(width, height);
-
+        try{
         frame = new JFrame();
+        }catch(Exception e){
+            System.out.println("Cannot open JFrame");
+            return;
+        }
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         frame.getContentPane().setPreferredSize(new Dimension(width*100, height*100));
         frame.pack();
@@ -73,7 +77,7 @@ public class Connect4 extends Game{
 
     public int computerMove(){
         // return ThreadLocalRandom.current().nextInt(0, 7);
-        return Connec4AI.computerMove(b);
+        return Connect4AI.computerMove(b);
     }
     private class BoardPanel extends JPanel{
 
