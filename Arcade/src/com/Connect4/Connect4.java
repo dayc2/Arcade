@@ -89,7 +89,7 @@ public class Connect4 extends Game{
     public String getDescription(){
         return "Players take turn dropping pieces into a vertial grid. " + 
         "The pieces fall straight down, occupying the lowest available" + 
-        "space within the column. The objective of the game is to be the" +
+        "space within the column. The objective of the game is to be the " +
         "first to form a horizontal, vertical, or diagonal line of four of one's own pieces"
         ;
         
