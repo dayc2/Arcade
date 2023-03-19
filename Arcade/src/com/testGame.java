@@ -22,5 +22,10 @@ public class testGame extends Game{
     public int maxPlayers() {
         return 5;
     }
+
+    @Override
+    public void resume() {
+        run(players);
+    }
     
 }

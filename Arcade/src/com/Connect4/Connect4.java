@@ -51,48 +51,69 @@ public class Connect4 extends Game{
     public void run(int players){
         b = new Board(width, height);
         try{
-        frame = new JFrame();
+            frame = new JFrame();
         }catch(Exception e){
             System.out.println("Cannot open JFrame");
             return;
         }
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.getContentPane().setPreferredSize(new Dimension(width*100, height*100));
-        frame.pack();
         boardPanel = new BoardPanel(height, width);
         frame.add(boardPanel);
+        frame.pack();
         frame.setVisible(true);
 
         this.players=players%2;
 
         if(players == 1){
             Object games = getStat("Single Player Games Played");
-            updateStat("Single Player Games Played", Integer.parseInt(games.toString())+1);
+            updateStat("Single Player Games Played", Integer.parseInt(games==null?"0":games.toString())+1);
         }else{
             Object games = getStat("Two Player Games Played");
-            updateStat("Two Player Games Played", Integer.parseInt(games.toString())+1);
+            updateStat("Two Player Games Played", Integer.parseInt(games==null?"0":games.toString())+1);
         }
 
-        if((int)getStat("Single Player Games Won") == 0)
+        Object stat = getStat("Single Player Games Won");
+        if(stat == null)
             updateStat("Single Player Games Won", 0);
-        if(Integer.parseInt(getStat("Two Player Games Won as Red").toString())==0)
+        stat = getStat("Two Player Games Won as Red");
+        if(stat == null)
             updateStat("Two Player Games Won as Red", 0);
-        if(Integer.parseInt(getStat("Two Player Games Won as Yellow").toString())==0)
+        stat = getStat("Two Player Games Won as Yellow");
+        if(stat == null)
             updateStat("Two Player Games Won as Yellow", 0);
 
 
-        running = true;
         addWindowListener();
         frame.setLocationRelativeTo(null);
+    }
+
+    public void resume(){
+        try{
+            frame = new JFrame();
+        }catch(Exception e){
+            System.out.println("Cannot open JFrame");
+            return;
+        }
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.getContentPane().setPreferredSize(new Dimension(width*100, height*100));
+        boardPanel = new BoardPanel(height, width);
+        frame.add(boardPanel);
+        frame.pack();
+        frame.setVisible(true);
+        addWindowListener();
+        frame.setLocationRelativeTo(null);
+
+        for(PiecePanel p : boardPanel.piecePanels){
+            boardPanel.updateColor(p.id);
+        }
     }
 
     public String getDescription(){
         return "Players take turn dropping pieces into a vertial grid. " + 
         "The pieces fall straight down, occupying the lowest available" + 
         "space within the column. The objective of the game is to be the " +
-        "first to form a horizontal, vertical, or diagonal line of four of one's own pieces"
-        ;
-        
+        "first to form a horizontal, vertical, or diagonal line of four of one's own pieces";
     }
 
     // public String getStats(){

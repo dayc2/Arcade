@@ -9,7 +9,7 @@ public enum Color {
         public java.awt.Color getColor(){ return new java.awt.Color(255, 255, 60);}
         public String toString(){return "Y";}
     }, NONE{
-        public java.awt.Color getColor(){ return new java.awt.Color(0, 0, 0);}
+        public java.awt.Color getColor(){ return new java.awt.Color(220, 220, 220);}
         public String toString(){return " ";}
     };
 

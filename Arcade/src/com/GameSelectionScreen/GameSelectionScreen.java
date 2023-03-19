@@ -41,6 +41,8 @@ public class GameSelectionScreen{
 
     private GamePanel gamePanel;
 
+    static Game[] GameList = new Game[]{new Connect4(), new testGame()};
+
     static Color MAIN_BACKGROUND = new Color(1, 43, 110);
     static Color SELECTED = new Color(255, 255, 255);
     static Color DESELECTED = new Color(200, 200, 200);
@@ -92,26 +94,26 @@ public class GameSelectionScreen{
 
     private class SelectionPanel extends JPanel{
 
-        private ArrayList<Game> gameList;
+        // private ArrayList<Game> gameList;
 
         private gameSelectPanel selected;
 
         SelectionPanel(){
-            gameList = new ArrayList<>();
+            // gameList = new ArrayList<>();
             // TODO Add new games to this list
-            gameList.add(new Connect4());
-            gameList.add(new testGame());
+            // gameList.add(new Connect4());
+            // gameList.add(new testGame());
             // gameList.add(/* Game */);
 
-            setBackground(MAIN_BACKGROUND);
+            setBackground(BORDER);
             JPanel p = new JPanel();
 
-            p.setPreferredSize(new Dimension(200, Math.max(gameList.size()*50, 400)));
+            p.setPreferredSize(new Dimension(200, Math.max(GameSelectionScreen.GameList.length*50, 400)));
             p.setBackground(DESELECTED);
-            p.setLayout(new GridLayout(Math.max(gameList.size(), 8), 1));
+            p.setLayout(new GridLayout(Math.max(GameSelectionScreen.GameList.length, 8), 1));
 
 
-            for(Game game : gameList){
+            for(Game game : GameSelectionScreen.GameList){
                 p.add(new gameSelectPanel(game));
                 
             }
@@ -247,13 +249,25 @@ public class GameSelectionScreen{
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    Object players[] = new Object[selectionPanel.selected.game.maxPlayers()];
-                    for (int i = 0; i < players.length; i++) {
+                    System.out.println(selectionPanel.selected.game.paused);
+                    if(selectionPanel.selected.game.paused){
+                        int option = JOptionPane.showOptionDialog(frame, "Resume game?", "Resume Game?", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Cancel", "No", "Yes"}, null);
+                        System.out.println(option);
+                        if(option == 2){
+                            selectionPanel.selected.game.resume();
+                            return;
+                        }
+                    }
+                    Object players[] = new Object[selectionPanel.selected.game.maxPlayers()+1];
+                    players[0] = "Cancel";
+                    for (int i = 1; i < players.length; i++) {
                         players[i] = players.length-i;
                     }
                     int option = JOptionPane.showOptionDialog(frame, "How many players?", "How Many Players?", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, players, 0);
-                    selectionPanel.selected.game.run(players.length-option);
-                    frame.dispose();
+                    if(option > 0 && option < players.length){
+                        selectionPanel.selected.game.run(players.length-option);
+                        frame.dispose();
+                    }
                 }
                 
             });

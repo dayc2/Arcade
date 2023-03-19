@@ -23,7 +23,8 @@ public abstract class Game {
 
     public int players = 1;
     protected JFrame frame;
-    boolean close = true;
+    private boolean close = true;
+    public boolean paused = false; 
 
     static String statsFile = System.getProperty("user.dir") + "/stats.json";
 
@@ -40,13 +41,19 @@ public abstract class Game {
     public abstract String getName();
 
     /**
-     * Use this to start running the game
+     * Use this to start running the game.
      * 
      * Make sure any stats are added using updateStat so they are saved and shown on stats screen
      * 
      * @param players the number of players for the game
      */
     public abstract void run(int players);
+
+    /**
+     * Use to resume a ongoing game. This method is called when the game is resumed.
+     * All game properties are saved and can be used except for the frame, which will need to be re-initialized.
+     */
+    public abstract void resume();
 
     /**
      * @return the maximum number of players that the game supports
@@ -67,10 +74,12 @@ public abstract class Game {
             public void windowOpened(WindowEvent e) {}
             public void windowClosing(WindowEvent e) {
                 if(close){
-                    if(JOptionPane.showOptionDialog(frame, "Are you sure you want to close? The game will not be saved", "Confirm",
+                    if(JOptionPane.showOptionDialog(frame, "Are you sure you want to close? The current game will be saved", "Confirm",
                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
                     null, new String[]{"No", "Yes"}, null) == 1){
                         frame.dispose();
+                        paused = true;
+                        System.out.println("paused " + paused);
                         new GameSelectionScreen();
                     }
                 }
@@ -87,10 +96,13 @@ public abstract class Game {
      * Use this to exit the game
      */
     public void exit(){
-        int option = JOptionPane.showOptionDialog(frame, "Play again?", "Play again?",
-         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
-          null, new String[]{"No", "Yes", "Change player amount"}, null);
-          if(option == 1){
+        int option = -1;
+        while(option == -1){
+            option = JOptionPane.showOptionDialog(frame, "Play again?", "Play again?",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+            null, new String[]{"No", "Yes", "Change player amount"}, null);
+        }
+        if(option == 1){
             close = false;
             if(frame!=null) frame.dispose();
             run(players);
@@ -101,13 +113,20 @@ public abstract class Game {
             new GameSelectionScreen();
         }else{
             close = false;
-            Object players[] = new Object[maxPlayers()];
-            for (int i = 0; i < players.length; i++) {
+            Object players[] = new Object[maxPlayers() + 1];
+            players[0] = "Back";
+            for (int i = 1; i < players.length; i++) {
                 players[i] = players.length-i;
             }
             option = JOptionPane.showOptionDialog(frame, "How many players?", "How Many Players?", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, players, 0);
-            if(frame != null) frame.dispose();
-            run(players.length-option);
+            if(option > 0 && option < players.length){
+                close = false;
+                if(frame != null) frame.dispose();
+                run(players.length-option);
+                close = true;
+            }else{
+                exit();
+            }
         }
     }
 
