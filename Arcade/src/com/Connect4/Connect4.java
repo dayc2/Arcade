@@ -5,7 +5,6 @@ import java.awt.event.MouseListener;
 
 import javax.swing.*;
 import javax.swing.SwingUtilities;
-import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 
 import com.Game;
@@ -13,18 +12,18 @@ import com.Game;
 
 public class Connect4 extends Game{
 
-    private JFrame frame;
     private BoardPanel boardPanel;
 
     private Board b;
     private int width;
     private int height;
 
-    private int players = 1;
-
     private java.awt.Color selecedColor = new java.awt.Color(150, 150, 150);
     private java.awt.Color unselecedColor = new java.awt.Color(220, 220, 220);
     private java.awt.Color backgroundColor = new java.awt.Color(20, 20, 200);
+
+    static int gamesPlayed;
+    static int gamesWon;
 
     public Connect4(){
         this(7, 6);
@@ -38,7 +37,17 @@ public class Connect4 extends Game{
         return b.toString();
     }
 
-    
+    public String getImage(){
+        return "connect4.jpeg";
+    }
+
+    public String getName(){
+        return "Connect Four";
+    }
+
+    public int maxPlayers(){
+        return 2;
+    }
     public void run(int players){
         b = new Board(width, height);
         try{
@@ -47,7 +56,7 @@ public class Connect4 extends Game{
             System.out.println("Cannot open JFrame");
             return;
         }
-        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.getContentPane().setPreferredSize(new Dimension(width*100, height*100));
         frame.pack();
         boardPanel = new BoardPanel(height, width);
@@ -56,24 +65,40 @@ public class Connect4 extends Game{
 
         this.players=players%2;
 
+        if(players == 1){
+            Object games = getStat("Single Player Games Played");
+            updateStat("Single Player Games Played", Integer.parseInt(games.toString())+1);
+        }else{
+            Object games = getStat("Two Player Games Played");
+            updateStat("Two Player Games Played", Integer.parseInt(games.toString())+1);
+        }
+
+        if((int)getStat("Single Player Games Won") == 0)
+            updateStat("Single Player Games Won", 0);
+        if(Integer.parseInt(getStat("Two Player Games Won as Red").toString())==0)
+            updateStat("Two Player Games Won as Red", 0);
+        if(Integer.parseInt(getStat("Two Player Games Won as Yellow").toString())==0)
+            updateStat("Two Player Games Won as Yellow", 0);
+
 
         running = true;
-
-    }
-
-    public void exit(){
-        System.out.println(b.turn.name() + " wins!");
-        System.out.println(b);
-        // frame.dispose();
+        addWindowListener();
+        frame.setLocationRelativeTo(null);
     }
 
     public String getDescription(){
-        return "This is basic Connect4";
+        return "Players take turn dropping pieces into a vertial grid. " + 
+        "The pieces fall straight down, occupying the lowest available" + 
+        "space within the column. The objective of the game is to be the" +
+        "first to form a horizontal, vertical, or diagonal line of four of one's own pieces"
+        ;
+        
     }
 
-    public String getHighScore(){
-        return "CHANGE THIS";
-    }
+    // public String getStats(){
+    //     return "Games Played: " + gamesPlayed +
+    //         "\nGames Won: " + gamesWon;
+    // }
 
     public int computerMove(){
         // return ThreadLocalRandom.current().nextInt(0, 7);
@@ -130,18 +155,35 @@ public class Connect4 extends Game{
                 public void mouseReleased(MouseEvent e) {
                     if(!b.winner && b.drop(getId())){
                         boardPanel.updateColor(b.lastDrop);
-                    };
+                    
 
-                    if(players==1 && !b.winner){
-                        while(!b.drop(computerMove()));
-                        boardPanel.updateColor(b.lastDrop);
-                    }
+                        if(players==1 && !b.winner){
+                            while(!b.drop(computerMove()));
+                            boardPanel.updateColor(b.lastDrop);
+                        }
 
-                    if(b.winner){
-                        running = false;
-                        exit();
+                        if(b.winner){
+                            if(b.turn == Color.RED){
+                                gamesWon++;
+                            }
+                            if(players == 1){
+                                if(b.turn == Color.RED){
+                                    Object games = getStat("Single Player Games Won");
+                                    updateStat("Single Player Games Won", Integer.parseInt(games.toString())+1);
+                                }
+                            }else if(b.turn == Color.RED){
+                                Object games = getStat("Two Player Games Won as Red");
+                                updateStat("Two Player Games Won as Red", Integer.parseInt(games.toString())+1);
+                            }else{
+                                Object games = getStat("Two Player Games Won as Yellow");
+                                updateStat("Two Player Games Won as Yellow", Integer.parseInt(games.toString())+1);
+
+                            }
+                            exit();
+                            return;
+                        }
+                        mouseEntered(e);
                     }
-                    mouseEntered(e);
                 }
 
                 @Override

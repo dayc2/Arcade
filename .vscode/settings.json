@@ -1,0 +1,9 @@
+{
+    "java.project.sourcePaths": [
+        "Arcade/src",
+        "Arcade/lib"
+    ],
+    "java.project.referencedLibraries": [
+        "Arcade/lib/json-simple-1.1.1.jar"
+    ]
+}
