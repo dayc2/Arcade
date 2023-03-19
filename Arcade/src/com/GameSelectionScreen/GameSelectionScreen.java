@@ -19,7 +19,6 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
