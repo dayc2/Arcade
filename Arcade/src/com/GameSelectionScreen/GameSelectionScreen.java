@@ -40,6 +40,7 @@ public class GameSelectionScreen{
 
     private GamePanel gamePanel;
 
+    // Add any new games to this list
     static Game[] GameList = new Game[]{new Connect4(), new testGame()};
 
     static Color MAIN_BACKGROUND = new Color(1, 43, 110);
@@ -93,17 +94,9 @@ public class GameSelectionScreen{
 
     private class SelectionPanel extends JPanel{
 
-        // private ArrayList<Game> gameList;
-
         private gameSelectPanel selected;
 
         SelectionPanel(){
-            // gameList = new ArrayList<>();
-            // TODO Add new games to this list
-            // gameList.add(new Connect4());
-            // gameList.add(new testGame());
-            // gameList.add(/* Game */);
-
             setBackground(BORDER);
             JPanel p = new JPanel();
 
@@ -248,10 +241,8 @@ public class GameSelectionScreen{
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    System.out.println(selectionPanel.selected.game.paused);
                     if(selectionPanel.selected.game.paused){
                         int option = JOptionPane.showOptionDialog(frame, "Resume game?", "Resume Game?", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Cancel", "No", "Yes"}, null);
-                        System.out.println(option);
                         if(option == 2){
                             selectionPanel.selected.game.resume();
                             return;
