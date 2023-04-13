@@ -39,11 +39,18 @@ public class HangmanAI {
 		String temp = "";
 		strikes = 0;
 		try (Scanner sc = new Scanner(new File("Arcade/src/com/Hangman/wordReserve.txt"))) {
-			int randomNum = (int) Math.round(Math.random() * (10 - 1) + 1);
+			Scanner sc2 = new Scanner(new File("Arcade/src/com/Hangman/wordReserve.txt"));
+			int num = 0;
+			while(sc2.hasNext()) {
+				num++;
+				sc2.next();
+			}
+			int randomNum = (int) Math.round(Math.random() * (num - 1) + 1);
 			for(int i = 0; i < randomNum; i++) {
 				temp = sc.next();
 			}
 			sc.close();
+			temp = temp.strip();
 			for(int i = 0; i < temp.length(); i++) {
 				String let = "";
 				let += temp.toLowerCase().charAt(i);
@@ -57,7 +64,7 @@ public class HangmanAI {
 				workingAnswer.add(answer.get(i));
 				correctGuess.add("");
 			}
-			
+			System.out.println(temp);
 			
 			return answer;
 		}
@@ -84,7 +91,7 @@ public class HangmanAI {
 		alphabet.removeAll(alphabet);
 		answer.removeAll(answer);
 		workingAnswer.removeAll(workingAnswer);
-		String letters = "abcdefghijklmnopqrstuvwxyz";
+		String letters = "qwertyuiopasdfghjklzxcvbnm";
 		int i = 0;
 		while(i < 26) {
 			String letter = "";

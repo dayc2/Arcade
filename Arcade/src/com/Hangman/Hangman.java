@@ -2,6 +2,9 @@ package com.Hangman;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputMethodEvent;
+import java.awt.event.InputMethodListener;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -49,6 +52,19 @@ public class Hangman extends Game{
     @Override
     public void run(int players) {
         HangmanAI.restart();
+        resume();
+
+        Object games = getStat("Games Played");
+        updateStat("Games Played", Integer.parseInt(games==null?"0":games.toString())+1);
+
+        Object stat = getStat("Games Won");
+        if(stat == null)
+            updateStat("Games Won", 0);
+    }
+
+
+    @Override
+    public void resume() {
         try{
             frame = new JFrame();
         }catch(Exception e){
@@ -81,18 +97,41 @@ public class Hangman extends Game{
         frame.add(lowerHalf);
         addWindowListener();
 
-        Object games = getStat("Games Played");
-        updateStat("Games Played", Integer.parseInt(games==null?"0":games.toString())+1);
+        frame.setFocusable(true);
+        frame.setAutoRequestFocus(true);
+        frame.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(java.awt.event.KeyEvent e) {
+                
+                
+            }
 
-        Object stat = getStat("Games Won");
-        if(stat == null)
-            updateStat("Games Won", 0);
-    }
+            @Override
+            public void keyPressed(java.awt.event.KeyEvent e) {
+                
+                
+            }
 
+            @Override
+            public void keyReleased(java.awt.event.KeyEvent e) {
+                if(!HangmanAI.alphabet.contains(e.getKeyChar()+"")) return;
+                System.out.println(e.getKeyChar());
+                HangmanAI.guess(e.getKeyChar()+"");
+                    getImg(imgPanel, HangmanAI.strikes);
+                    if(HangmanAI.checkLose()) {
+                        exit();
+                        playagain();
+                    }
+                    if(HangmanAI.checkWin()) {
+                        Object games = getStat("Games Won");
+                        updateStat("Games Won", Integer.parseInt(games.toString())+1);
+                        exit();
+                    }
+                
+            }
+        });
+        
 
-    @Override
-    public void resume() {
-       paused = false;
     }
 
     @Override
