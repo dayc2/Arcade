@@ -46,7 +46,7 @@ public class HangmanAI {
 			sc.close();
 			for(int i = 0; i < temp.length(); i++) {
 				String let = "";
-				let += temp.charAt(i);
+				let += temp.toLowerCase().charAt(i);
 				answer.add(let);
 			}
 			

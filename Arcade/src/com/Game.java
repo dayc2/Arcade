@@ -25,6 +25,7 @@ public abstract class Game {
     protected JFrame frame;
     private boolean close = true;
     public boolean paused = false; 
+    public boolean unlocked = false;
 
     static String statsFile = System.getProperty("user.dir") + "/stats.json";
 
@@ -70,6 +71,7 @@ public abstract class Game {
         if(frame==null){
             throw new NullPointerException("Frame was not initialized");
         }
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.addWindowListener(new WindowListener() {
             public void windowOpened(WindowEvent e) {}
             public void windowClosing(WindowEvent e) {
