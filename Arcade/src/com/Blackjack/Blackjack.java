@@ -6,7 +6,11 @@ import java.util.List;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
@@ -22,18 +26,33 @@ public class Blackjack extends Game{
 	
 	public void run(int players) {
 		
-		java.awt.Color backColor = new java.awt.Color(0, 150, 0);
-		frame = new JFrame();
-        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        frame.getContentPane().setPreferredSize(new Dimension(700, 600));
-        frame.pack();
-        frame.setVisible(true);
-        frame.setBackground(backColor);
-        JPanel newPanel = new JPanel();
-        frame.add(newPanel);
-        newPanel.setBackground(backColor);
-        frame.setResizable(false);
-        
+		
+		JFrame frame = new JFrame();
+		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		frame.setSize(1000, 900);
+		frame.setResizable(false);
+		frame.setTitle("Blackjack");
+		frame.setVisible(true);
+		//frame.getContentPane().setBackground(new Color(0x0a7a0e));
+		
+		JLabel label = new JLabel();
+		label.setText("This is a test label");
+		
+		BufferedImage img;
+		try {
+			URL url = Blackjack.class.getResource("/com/Blackjack/PNG-cards-1.3/10_of_clubs.png");
+			img = ImageIO.read(url);
+			Image image = img.getScaledInstance((int) (img.getWidth()), (int) (img.getHeight()), Image.SCALE_SMOOTH);
+			ImageIcon brandNewImage = new ImageIcon(image);
+		
+			label.setIcon(brandNewImage);
+			frame.add(label);
+		}catch(IOException e){
+			System.out.println("IMAGE NOT FOUND");
+            e.printStackTrace();            
+            return;
+		}
+		
 		
 		
 		List<Player> playerList = new ArrayList<>(); 
@@ -79,7 +98,6 @@ public class Blackjack extends Game{
 		}
 		cycle = 0;
 		while(cycle  < playerList.size()) {
-			System.out.println("Hand " + (cycle + 1));
 			printHand(playerList.get(cycle).getHand());
 			System.out.println(playerList.get(cycle).getValue());
 			System.out.println("");
@@ -137,11 +155,25 @@ public class Blackjack extends Game{
 			
 		}
 		
+		
+		
+		void updatePanel(){
+			
+		}
+		
 	}
 	
 	
 	
 	
 }
+
+
+
+
+
+
+
+
 
 
