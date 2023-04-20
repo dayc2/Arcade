@@ -30,37 +30,37 @@ public class Card {
 			value = 2;
 		}else if((number % 13) == 2) {
 			type = "Three";
-			value = 2;
+			value = 3;
 		}else if((number % 13) == 3) {
 			type = "Four";
-			value = 2;
+			value = 4;
 		}else if((number % 13) == 4) {
 			type = "Five";
-			value = 2;
+			value = 5;
 		}else if((number % 13) == 5) {
 			type = "Six";
-			value = 2;
+			value = 6;
 		}else if((number % 13) == 6) {
 			type = "Seven";
-			value = 2;
+			value = 7;
 		}else if((number % 13) == 7) {
 			type = "Eight";
-			value = 2;
+			value = 8;
 		}else if((number % 13) == 8) {
 			type = "Nine";
-			value = 2;
+			value = 9;
 		}else if((number % 13) == 9) {
 			type = "Ten";
-			value = 2;
+			value = 10;
 		}else if((number % 13) == 10) {
 			type = "Jack";
-			value = 2;
+			value = 10;
 		}else if((number % 13) == 11) {
 			type = "Queen";
-			value = 2;
+			value = 10;
 		}else if((number % 13) == 12) {
 			type = "King";
-			value = 2;
+			value = 10;
 		}
 	}
 	
