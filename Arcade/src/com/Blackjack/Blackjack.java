@@ -40,13 +40,16 @@ public class Blackjack extends Game{
 		
 		BufferedImage img;
 		try {
-			URL url = Blackjack.class.getResource("/com/Images/BlackjackCards/10_of_clubs.png");
+			URL url = Blackjack.class.getResource("/com/Blackjack/PNG-cards-1.3/10_of_clubs.png");
 			img = ImageIO.read(url);
 			Image image = img.getScaledInstance((int) (img.getWidth()), (int) (img.getHeight()), Image.SCALE_SMOOTH);
 			ImageIcon brandNewImage = new ImageIcon(image);
 		
 			label.setIcon(brandNewImage);
 			frame.add(label);
+			
+			label.setVisible(true);
+			
 		}catch(IOException e){
 			System.out.println("IMAGE NOT FOUND");
             e.printStackTrace();            
