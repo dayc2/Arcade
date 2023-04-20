@@ -8,7 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.*;
-import javax.swing.SwingUtilities;
+
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 
@@ -20,45 +20,85 @@ public class Blackjack extends Game{
 
 	public static List<Card> deck = new ArrayList<Card>();
 	
-	public static void main(String[] args) {
+	public void run(int players) {
 		
-		List<List<Card>> hands = new ArrayList<>(); 
-		int players = 5;
+		java.awt.Color backColor = new java.awt.Color(0, 150, 0);
+		frame = new JFrame();
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        frame.getContentPane().setPreferredSize(new Dimension(700, 600));
+        frame.pack();
+        frame.setVisible(true);
+        frame.setBackground(backColor);
+        JPanel newPanel = new JPanel();
+        frame.add(newPanel);
+        newPanel.setBackground(backColor);
+        frame.setResizable(false);
+        
+		
+		
+		List<Player> playerList = new ArrayList<>(); 
+		
 		int cycle = 0;
 		boolean game = true;
 		boolean round = true;
 		
-		deck = createDeck();
-		
-		while(cycle < players) {
-			List<Card> hand = new ArrayList<Card>();
-			hands.add(hand);
+		while(cycle <= players) {
+			
+			playerList.add(new Player());
 			cycle++;
 		}
+		
+		deck = createDeck();
+		
 		cycle = 0;
 
 		while(game) {
+			while(cycle < playerList.size()) {
+				hit(playerList.get(cycle));
+				hit(playerList.get(cycle));
+				cycle++;
+			}
 			while(round) {
-				while(cycle < players) {
-					hands.get(cycle).add(hit());
-					hands.get(cycle).add(hit());
-					cycle++;
+				int cycle1 = 0;
+				int completed = 0;
+				while (cycle1 < playerList.size()) {
+					if (playerList.get(cycle1).getValue() <= 21) {
+						hit(playerList.get(cycle1));
+						System.out.println("Player " + cycle1 + ": " + playerList.get(cycle1).getValue());
+						System.out.println(cycle1);
+					} else {
+						completed++;
+					}
+					cycle1++;
 				}
-				
-				round = false;
+				if (cycle1 - completed == 0) {
+					round = false;
+				}
 			}
 			game = false;
 		}
 		cycle = 0;
-		while(cycle  < hands.size()) {
+		while(cycle  < playerList.size()) {
 			System.out.println("Hand " + (cycle + 1));
-			printHand(hands.get(cycle));
+			printHand(playerList.get(cycle).getHand());
+			System.out.println(playerList.get(cycle).getValue());
 			System.out.println("");
 			cycle++;
 		}
 		
 	}
 	
+	public String getDescription() {
+		return "This is a standard game of Blackjack";
+	}
+	
+	public void exit() {
+		System.out.println("not done yet");
+	}
+	
+	public String getHighScore() {
+		return "CHANGE THIS";
+	}
 		
 	public static List<Card> createDeck() {
 		
@@ -90,5 +130,18 @@ public class Blackjack extends Game{
 			cycle++;
 		}
 	}
+	
+	class CardPanel extends JPanel{
+		
+		CardPanel(){
+			
+		}
+		
+	}
+	
+	
+	
+	
 }
+
 
