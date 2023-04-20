@@ -5,12 +5,11 @@ import java.util.List;
 
 public class Player {
 
-	private int money;
+	private int money = 50;
 	private List<Card> hand = new ArrayList<>();
 	
-	public Player(int m, List<Card> h){
-		money = m;
-		hand = h;
+	public Player(){
+		//does nothing
 	}
 	
 	public int getMoney () {
@@ -19,6 +18,10 @@ public class Player {
 	
 	public List<Card> getHand(){
 		return hand;
+	}
+	
+	public void setHand(List<Card> newHand) {
+		hand = newHand;
 	}
 	
 	public int getHandSize() {
@@ -31,5 +34,26 @@ public class Player {
 	
 	public void setMoney(int gain) {
 		money = (money + gain);
+	}
+	
+	public int getValue() {
+		int result = 0;
+		int cycle = 0;
+		int aceLocation = -1;
+		
+		while(cycle < hand.size()) {
+			result = (result + hand.get(cycle).getValue());
+			if(11 == hand.get(cycle).getValue()) {
+				aceLocation = cycle;
+			}
+			if((result > 21) && (aceLocation != -1)) {
+				hand.get(aceLocation).lowerAce();
+				result = getValue();
+			}
+			cycle++;
+		}
+		
+		
+		return result;
 	}
 }
