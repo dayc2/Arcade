@@ -220,7 +220,7 @@ public abstract class Game {
      * @return the current stat. Returns null if the stat doesn't exist, is null, or is 0
      */
     @SuppressWarnings("unchecked")
-    protected Object getStat(String statName){
+    public Object getStat(String statName){
         JSONParser j = new JSONParser();
         File f = new File(statsFile);
         try {
@@ -254,5 +254,13 @@ public abstract class Game {
      */
     public String getImage(){
         return "DefaultImage.jpg";
+    }
+
+    /**
+     * @return a boolean value based on a condition you decide from the previous game
+     * once that condition is met in the stats your condition should be false
+     */
+    public boolean locked() {
+        return false;
     }
 }

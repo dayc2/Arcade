@@ -30,7 +30,7 @@ import com.Game;
 import com.testGame;
 import com.Connect4.Connect4;
 import com.Hangman.Hangman;
-import com.TicTacToe.TicTacToe;
+// import com.TicTacToe.TicTacToe;
 
 public class GameSelectionScreen{
 
@@ -43,7 +43,7 @@ public class GameSelectionScreen{
     private GamePanel gamePanel;
 
     // Add any new games to this list
-    static Game[] GameList = new Game[]{new Connect4(), new TicTacToe(), new Hangman(), new testGame()};
+    static Game[] GameList = new Game[]{new Connect4(), new Hangman(), new testGame()};
 
     static Color MAIN_BACKGROUND = new Color(1, 43, 110);
     static Color SELECTED = new Color(255, 255, 255);
@@ -108,7 +108,8 @@ public class GameSelectionScreen{
 
 
             for(Game game : GameSelectionScreen.GameList){
-                p.add(new gameSelectPanel(game));
+                if(!game.locked())
+                    p.add(new gameSelectPanel(game));
                 
             }
             JScrollPane scrollBar = new JScrollPane(p, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);

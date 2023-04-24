@@ -121,6 +121,10 @@ public class Connect4 extends Game{
     //         "\nGames Won: " + gamesWon;
     // }
 
+    public boolean locked() {
+        return false;
+    }
+
     public int computerMove(){
         // return ThreadLocalRandom.current().nextInt(0, 7);
         return Connect4AI.computerMove(b);

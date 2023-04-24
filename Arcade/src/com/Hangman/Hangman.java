@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import com.Game;
+import com.Connect4.Connect4;
 
 
 public class Hangman extends Game{
@@ -260,6 +261,16 @@ public class Hangman extends Game{
         HangmanAI.restart();
     }
 
+    public boolean locked() {
+        Game c4 = new Connect4(0, 0);
+        Object stat = c4.getStat("Single Player Games Won");
+        if(stat != null) {
+            Integer check = Integer.parseInt(stat.toString());
+            if (check >= 1) 
+                return false;
+        }
+        return true;
+    }
 
 
 }
