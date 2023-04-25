@@ -247,8 +247,16 @@ public class Blackjack extends Game {
 
 	@Override
 	public boolean nextUnlocked() {
+		if(getStats().compareTo("No stats yet, play one game") == 0)
+			return false;
+		/**
+		Integer goal = 1;
+        Object stat = getStat("Ex: Games Won");
+        if(Integer.parseInt(stat.toString()) >= goal)
+            return true;
+		 */
 		return false;
-	}	
+	}
 }
 
 

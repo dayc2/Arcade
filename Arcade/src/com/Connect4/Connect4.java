@@ -122,6 +122,8 @@ public class Connect4 extends Game{
     // }
 
     public boolean nextUnlocked() {
+        if(getStats().compareTo("No stats yet, play one game") == 0)
+            return false;
         Integer goal = 1;
         Object stat = getStat("Single Player Games Won");
         if(Integer.parseInt(stat.toString()) >= goal)
