@@ -98,9 +98,11 @@ public class Player {
 			label.setBounds(((hand.size() - 11) * 64), 186, 64, 93);
 		}
 		BufferedImage img = null;
-		System.out.println((hand.get(hand.size() - 1).getURL()));
+		System.out.println(("Arcade/src/com/Images/BlackjackCards/" + hand.get(hand.size() - 1).getURL()));
 		try {
-		    img = ImageIO.read(new File(hand.get(hand.size() - 1).getURL()));
+			URL url = Blackjack.class.getResource("/com/Images/BlackjackCards/" + hand.get(hand.size() - 1).getURL());
+		    // img = ImageIO.read(new File(hand.get(hand.size() - 1).getURL()));
+			img = ImageIO.read(url);
 		} catch (IOException e) {
 		    e.printStackTrace();
 		}

@@ -156,6 +156,24 @@ public class Blackjack extends Game {
 			cycle++;
 		}
 	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'getName'");
+	}
+
+	@Override
+	public void resume() {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'resume'");
+	}
+
+	@Override
+	public int maxPlayers() {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'maxPlayers'");
+	}
 	
 	
 	
