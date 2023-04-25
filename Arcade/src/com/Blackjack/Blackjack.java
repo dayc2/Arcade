@@ -4,21 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 
 import com.Game;
 
-public class Blackjack extends Game{
+public class Blackjack extends Game {
 	
 	private JFrame frame;
 
@@ -28,34 +31,20 @@ public class Blackjack extends Game{
 		
 		
 		JFrame frame = new JFrame();
+		JButton button = new JButton();
+		button .setBounds(700, 200, 100, 100);
+		button.addActionListener(e -> System.out.println("Working"));
+		button.setText("HIT");
+
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		frame.setSize(1000, 900);
+		frame.setSize(1280, 720);
+		frame.setLayout(null);
 		frame.setResizable(false);
 		frame.setTitle("Blackjack");
+		
+		frame.add(button);
+		
 		frame.setVisible(true);
-		//frame.getContentPane().setBackground(new Color(0x0a7a0e));
-		
-		JLabel label = new JLabel();
-		label.setText("This is a test label");
-		
-		BufferedImage img;
-		try {
-			URL url = Blackjack.class.getResource("/com/Blackjack/PNG-cards-1.3/10_of_clubs.png");
-			img = ImageIO.read(url);
-			Image image = img.getScaledInstance((int) (img.getWidth()), (int) (img.getHeight()), Image.SCALE_SMOOTH);
-			ImageIcon brandNewImage = new ImageIcon(image);
-		
-			label.setIcon(brandNewImage);
-			frame.add(label);
-			
-			label.setVisible(true);
-			
-		}catch(IOException e){
-			System.out.println("IMAGE NOT FOUND");
-            e.printStackTrace();            
-            return;
-		}
-		
 		
 		
 		List<Player> playerList = new ArrayList<>(); 
@@ -67,6 +56,17 @@ public class Blackjack extends Game{
 		while(cycle <= players) {
 			
 			playerList.add(new Player());
+			if (cycle == 1) {
+				playerList.get(cycle).makeSpace(frame, 0, 0, "PLAYER ONE");
+			} else if (cycle == 2) {
+				playerList.get(cycle).makeSpace(frame, 320, 0, "PLAYER TWO");
+			} else if (cycle == 3) {
+				playerList.get(cycle).makeSpace(frame, 0, 360, "PLAYER THREE");
+			} else if (cycle == 4) {
+				playerList.get(cycle).makeSpace(frame, 320, 360, "PLAYER FOUR");
+			} else {
+				playerList.get(cycle).makeSpace(frame, 946, 0, "DEALER");
+			}
 			cycle++;
 		}
 		
@@ -75,9 +75,10 @@ public class Blackjack extends Game{
 		cycle = 0;
 
 		while(game) {
+			
 			while(cycle < playerList.size()) {
-				hit(playerList.get(cycle));
-				hit(playerList.get(cycle));
+				hit(playerList.get(cycle), frame);
+				hit(playerList.get(cycle), frame);
 				cycle++;
 			}
 			while(round) {
@@ -85,7 +86,7 @@ public class Blackjack extends Game{
 				int completed = 0;
 				while (cycle1 < playerList.size()) {
 					if (playerList.get(cycle1).getValue() <= 21) {
-						hit(playerList.get(cycle1));
+						hit(playerList.get(cycle1), frame);
 						System.out.println("Player " + cycle1 + ": " + playerList.get(cycle1).getValue());
 						System.out.println(cycle1);
 					} else {
@@ -106,6 +107,9 @@ public class Blackjack extends Game{
 			System.out.println("");
 			cycle++;
 		}
+		
+		
+		
 		
 	}
 	
@@ -134,7 +138,7 @@ public class Blackjack extends Game{
 		return result;
 	}
 
-	public static void hit(Player currentPlayer){
+	public static void hit(Player currentPlayer, JFrame frame){
 		
 		Card result;
 		int choice;
@@ -142,6 +146,7 @@ public class Blackjack extends Game{
 		result = deck.get(choice);
 		deck.remove(choice);
 		currentPlayer.addCard(result);
+		currentPlayer.updateSpace(frame);
 	}
 	
 	public static void printHand(List<Card> hand) {
@@ -152,19 +157,6 @@ public class Blackjack extends Game{
 		}
 	}
 	
-	class CardPanel extends JPanel{
-		
-		CardPanel(){
-			
-		}
-		
-		
-		
-		void updatePanel(){
-			
-		}
-		
-	}
 	
 	
 	
