@@ -8,7 +8,7 @@ public class Card {
 	private String suit;
 	private int number;
 	private int originalNumber;
-	String url = "PNG-Cards-1.3/";
+	String url = "Arcade/src/com/Images/BlackjackCards/";
 	
 	public Card(int input) {
 		originalNumber = input;
