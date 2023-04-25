@@ -175,11 +175,12 @@ public class GameSelectionScreen{
                                 gamePanel.imagePanel.setVisible(true);
                                 gamePanel.playButton.setVisible(true);
                                 gamePanel.statsButton.setText("Stats");
+                                gamePanel.playButton.setEnabled(true);
                             } else {
                                 gamePanel.updateImage("gamelock.png");
                                 gamePanel.updateDescription("Complete the previous game before playing this one!");
-                                gamePanel.descriptionPanel.setVisible(true);
                                 gamePanel.statsPanel.setVisible(false);
+                                gamePanel.playButton.setEnabled(false);
                                 gamePanel.descriptionPanel.setVisible(true);
                                 gamePanel.imagePanel.setVisible(true);
                             }
