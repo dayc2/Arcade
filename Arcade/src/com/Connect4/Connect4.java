@@ -121,7 +121,11 @@ public class Connect4 extends Game{
     //         "\nGames Won: " + gamesWon;
     // }
 
-    public boolean locked() {
+    public boolean nextUnlocked() {
+        Integer goal = 1;
+        Object stat = getStat("Single Player Games Won");
+        if(Integer.parseInt(stat.toString()) >= goal)
+            return true;
         return false;
     }
 

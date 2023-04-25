@@ -285,4 +285,10 @@ public class TicTacToe extends Game{
             this.second = second;
         }
     }
+
+    @Override
+    public boolean nextUnlocked() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'nextUnlocked'");
+    }
 }

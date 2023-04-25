@@ -27,5 +27,10 @@ public class testGame extends Game{
     public void resume() {
         run(players);
     }
+
+    @Override
+    public boolean nextUnlocked() {
+        return true;
+    }
     
 }

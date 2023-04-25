@@ -243,6 +243,11 @@ public class Blackjack extends Game {
 	@Override
 	public int maxPlayers() {
 		return 4;
+	}
+
+	@Override
+	public boolean nextUnlocked() {
+		return false;
 	}	
 }
 

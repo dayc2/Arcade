@@ -26,6 +26,8 @@ public abstract class Game {
     private boolean close = true;
     public boolean paused = false; 
     public boolean unlocked = false;
+    public boolean nextUnlocked = false;
+
 
     static String statsFile = System.getProperty("user.dir") + "/stats.json";
 
@@ -179,7 +181,7 @@ public abstract class Game {
      * Use this to update / add any stat
      * 
      * @param statName the name of the stat to update / add
-     * @param value the value taht they stat will have
+     * @param value the value that the stat will have
      */
     @SuppressWarnings("unchecked")
     protected void updateStat(String statName, Object value){
@@ -256,11 +258,6 @@ public abstract class Game {
         return "DefaultImage.jpg";
     }
 
-    /**
-     * @return a boolean value based on a condition you decide from the previous game
-     * once that condition is met in the stats your condition should be false
-     */
-    public boolean locked() {
-        return false;
-    }
+    public abstract boolean nextUnlocked();
+
 }
