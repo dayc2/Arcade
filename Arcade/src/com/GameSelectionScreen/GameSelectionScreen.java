@@ -57,6 +57,7 @@ public class GameSelectionScreen{
     static Color BORDER = new Color(32, 35, 54);
 
     public GameSelectionScreen(){
+        locked(GameList);
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -94,6 +95,20 @@ public class GameSelectionScreen{
 
     }
 
+    
+    protected void locked(Game[] gameList) {
+        int count = 0;
+        int i = 1;
+        for (Game game : gameList) {
+            if(count == 0) 
+                game.unlocked = true;
+            if(game.nextUnlocked() && i < gameList.length) 
+                gameList[i].unlocked = true;
+            i++;
+            count++;
+        }
+    }
+
     private class SelectionPanel extends JPanel{
 
         private gameSelectPanel selected;
@@ -108,9 +123,7 @@ public class GameSelectionScreen{
 
 
             for(Game game : GameSelectionScreen.GameList){
-                if(!game.locked())
                     p.add(new gameSelectPanel(game));
-                
             }
             JScrollPane scrollBar = new JScrollPane(p, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
             scrollBar.setPreferredSize(new Dimension(200, 400+20));
@@ -154,13 +167,23 @@ public class GameSelectionScreen{
                         if(selected != getPanel()){
                             selected = getPanel();
                             setBackground(SELECTED);
-                            gamePanel.updateImage(selected.game.getImage());
-                            gamePanel.updateDescription(selected.game.getDescription());
-                            gamePanel.statsPanel.setVisible(false);
-                            gamePanel.descriptionPanel.setVisible(true);
-                            gamePanel.imagePanel.setVisible(true);
-                            gamePanel.playButton.setVisible(true);
-                            gamePanel.statsButton.setText("Stats");
+                            if(game.unlocked) {
+                                gamePanel.updateImage(selected.game.getImage());
+                                gamePanel.updateDescription(selected.game.getDescription());
+                                gamePanel.statsPanel.setVisible(false);
+                                gamePanel.descriptionPanel.setVisible(true);
+                                gamePanel.imagePanel.setVisible(true);
+                                gamePanel.playButton.setVisible(true);
+                                gamePanel.statsButton.setText("Stats");
+                                gamePanel.playButton.setEnabled(true);
+                            } else {
+                                gamePanel.updateImage("gamelock.png");
+                                gamePanel.updateDescription("Complete the previous game before playing this one!");
+                                gamePanel.statsPanel.setVisible(false);
+                                gamePanel.playButton.setEnabled(false);
+                                gamePanel.descriptionPanel.setVisible(true);
+                                gamePanel.imagePanel.setVisible(true);
+                            }
                         }
                         
                     }
