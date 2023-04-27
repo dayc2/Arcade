@@ -21,8 +21,8 @@ public class FlappyBird implements ActionListener, KeyListener {
 
     public static final int WIDTH = 800, HEIGHT = 600;
 
-    public FlappyBird() {
-        jframe = new JFrame();
+    public FlappyBird(JFrame frame) {
+        jframe = frame;
         jPanel = new JPanel() {
             @Override
             public void paintComponent(Graphics g) {
@@ -188,6 +188,12 @@ public class FlappyBird implements ActionListener, KeyListener {
             
             if (bird.y + yMotion >= HEIGHT - 175) {
                 gameOver = true;
+            }c
+
+            if(gameOver && gameStarted) {
+                gameStarted = false;
+                FlappyBirdGame.endGame(score);
+                jframe.dispose();
             }
         }
 
@@ -195,22 +201,18 @@ public class FlappyBird implements ActionListener, KeyListener {
     }
 
 
-public static void main(String[] args) {
-    new FlappyBird();
-}
-
-@Override
-public void keyTyped(KeyEvent e) {
-}
-
-@Override
-public void keyPressed(KeyEvent e) {
-    if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-        jump();
+    @Override
+    public void keyTyped(KeyEvent e) {
     }
-}
 
-@Override
-public void keyReleased(KeyEvent e) {
-}
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            jump();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+    }
 }
