@@ -38,7 +38,7 @@ public class Connect4 extends Game{
     }
 
     public String getImage(){
-        return "connect4.jpeg";
+        return "Connect4.png";
     }
 
     public String getName(){
