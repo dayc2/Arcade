@@ -30,7 +30,9 @@ import com.Game;
 import com.testGame;
 import com.Blackjack.Blackjack;
 import com.Connect4.Connect4;
+import com.FlappyBird.FlappBirdGame;
 import com.Hangman.Hangman;
+import com.TicTacToe.TicTacToe;
 
 public class GameSelectionScreen{
 
@@ -43,7 +45,7 @@ public class GameSelectionScreen{
     private GamePanel gamePanel;
 
     // Add any new games to this list
-    static Game[] GameList = new Game[]{new Connect4(), new Hangman(), new Blackjack(), new testGame()};
+    static Game[] GameList = new Game[]{new Connect4(), new TicTacToe(), new FlappBirdGame(), new Hangman(), new Blackjack(), new testGame()};
 
     static Color MAIN_BACKGROUND = new Color(1, 43, 110);
     static Color SELECTED = new Color(255, 255, 255);
@@ -97,15 +99,20 @@ public class GameSelectionScreen{
 
     
     protected void locked(Game[] gameList) {
-        int count = 0;
-        int i = 1;
-        for (Game game : gameList) {
-            if(count == 0) 
-                game.unlocked = true;
-            if(game.nextUnlocked() && i < gameList.length) 
+        // int count = 0;
+        // int i = 1;
+        // for (Game game : gameList) {
+        //     if(count == 0) 
+        //         game.unlocked = true;
+        //     if(game.nextUnlocked() && i < gameList.length) 
+        //         gameList[i].unlocked = true;
+        //     i++;
+        //     count++;
+        // }
+        gameList[0].unlocked = true;
+        for (int i = 1; i < gameList.length; i++) {
+            if(gameList[i-1].getStats() != "No stats yet, play one game")
                 gameList[i].unlocked = true;
-            i++;
-            count++;
         }
     }
 

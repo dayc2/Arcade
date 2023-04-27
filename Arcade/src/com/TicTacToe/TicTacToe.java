@@ -1,11 +1,18 @@
+package com.TicTacToe;
+
 import javax.swing.*;
+
+import com.Game;
+import com.GameSelectionScreen.GameSelectionScreen;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Random;
 
-public class TicTacToe extends JFrame implements ActionListener {
+public class TicTacToe extends Game{
 	
-    private JButton[][] buttons = new JButton[3][3];
+    private JButton[][] buttons;
+    char[][] board;
     
     private boolean playerOneTurn = true;
     
@@ -14,49 +21,63 @@ public class TicTacToe extends JFrame implements ActionListener {
     private boolean playAgainstBot;
 
     public TicTacToe() {
-        super("Tic Tac Toe");
-        setSize(1000, 1000);
-        setResizable(true);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLayout(new GridLayout(3, 3));
-        initializeButtons();
-
-        
-        int result = JOptionPane.showConfirmDialog(this, "Do you want to play against a bot?", "Choose Opponent", JOptionPane.YES_NO_OPTION);
-        playAgainstBot = result == JOptionPane.YES_OPTION;
-
-        setVisible(true);
+        buttons = new JButton[3][3];
     }
 
     private void initializeButtons() {
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
                 buttons[row][col] = new JButton();
-                buttons[row][col].addActionListener(this);
-                add(buttons[row][col]);
+                if(board[row][col] != 0){
+                    buttons[row][col].setText(Character.toString(board[row][col]));
+                }
+                buttons[row][col].addActionListener(new ActionListener() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        JButton buttonClicked = (JButton)e.getSource();
+                        int row = 0, col = 0;
+                        for (int i = 0; i < board.length; i++) {
+                            for (int j = 0; j < board.length; j++) {
+                                if(buttonClicked == buttons[i][j]) {
+                                    row = i;
+                                    col = j;
+                                    i = 3;
+                                    break;
+                                }
+                            }
+                        }
+                        if (board[row][col] == 0) {
+                            if (playerOneTurn) {
+                                buttonClicked.setText("X");
+                                board[row][col] = 'X';
+                            } else {
+                                buttonClicked.setText("O");
+                                board[row][col] = 'O';
+                            }
+                            turnsTaken++;
+                            if (checkForWin() || checkForTie()) {
+                                endGame();
+                            } else {
+                                playerOneTurn = !playerOneTurn;
+                                if (playAgainstBot && !playerOneTurn) {
+                                    makeBotMove();
+                                }
+                            }
+                        }
+                    }
+                    
+                });
+                buttons[row][col].setFont(new Font("Arial", Font.PLAIN, frame.getWidth()/5));
+                buttons[row][col].setFocusable(false);
+                frame.add(buttons[row][col]);
             }
         }
     }
 
-    public void actionPerformed(ActionEvent e) {
-        JButton buttonClicked = (JButton)e.getSource();
-        if (buttonClicked.getText().equals("")) {
-            if (playerOneTurn) {
-                buttonClicked.setText("X");
-            } else {
-                buttonClicked.setText("O");
-            }
-            turnsTaken++;
-            if (checkForWin() || checkForTie()) {
-                endGame();
-            } else {
-                playerOneTurn = !playerOneTurn;
-                if (playAgainstBot && !playerOneTurn) {
-                    makeBotMove();
-                }
-            }
-        }
-    }
+    // public void actionPerformed(ActionEvent e) {
+        
+    // }
 
     private boolean checkForWin() {
         // Check for horizontal wins
@@ -97,13 +118,25 @@ public class TicTacToe extends JFrame implements ActionListener {
     }
 
     private void endGame() {
-        for (int row = 0; row < 3; row++) {
-            for (int col = 0; col < 3; col++) {
-                buttons[row][col].setEnabled(false);
+        // for (int row = 0; row < 3; row++) {
+        //     for (int col = 0; col < 3; col++) {
+        //         buttons[row][col].setEnabled(false);
+        //     }
+        // }
+        // JOptionPane.showMessageDialog(this, getResultMessage());
+        // resetGame();
+        if(!checkForTie()){
+            Object stat = getStat("Single Player Games Won");
+            if(players == 1){
+                Object games = getStat("Single Player Games Won");
+                updateStat("Single Player Games Won", Integer.parseInt(games==null?"0":games.toString())+1);
+            }
+            else {
+                Object games = getStat("Two Player Games Played");
+                updateStat("Two Player Games Played", Integer.parseInt(games==null?"0":games.toString())+1);
             }
         }
-        JOptionPane.showMessageDialog(this, getResultMessage());
-        resetGame();
+        exit();
     }
 
     private String getResultMessage() {
@@ -137,9 +170,10 @@ public class TicTacToe extends JFrame implements ActionListener {
         do {
             row = random.nextInt(3);
             col = random.nextInt(3);
-        } while (!buttons[row][col].getText().equals(""));
+        } while (board[row][col] != 0);
 
         buttons[row][col].setText("O");
+        board[row][col] = 'O';
         turnsTaken++;
         if (checkForWin() || checkForTie()) {
             endGame();
@@ -149,6 +183,59 @@ public class TicTacToe extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        TicTacToe game = new TicTacToe();
+        // TicTacToe game = new TicTacToe();
+        new GameSelectionScreen();
+    }
+
+    @Override
+    public String getDescription() {
+        return "Tic Tac Toe";
+    }
+
+    @Override
+    public String getName() {
+        return "Tic Tac Toe";
+    }
+
+    @Override
+    public void run(int players) {
+        Object stat = getStat("Single Player Games Won");
+        if(stat == null)
+            updateStat("Single Player Games Won", 0);
+        stat = getStat("Two Player Games Won");
+            if(stat == null)
+                updateStat("Two Player Games Won", 0);
+        turnsTaken = 0;
+        playAgainstBot = players == 1;
+        this.players = players;
+        board = new char[3][3];
+        resume();
+    }
+
+    @Override
+    public void resume() {
+        frame = new JFrame("Tic Tac Toe");
+        // super("Tic Tac Toe");
+        frame.setSize(800, 800);
+        frame.setResizable(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new GridLayout(3, 3));
+        initializeButtons();
+        addWindowListener();
+
+        // int result = JOptionPane.showConfirmDialog(this, "Do you want to play against a bot?", "Choose Opponent", JOptionPane.YES_NO_OPTION);
+        // playAgainstBot = result == JOptionPane.YES_OPTION;
+
+        frame.setVisible(true);
+    }
+
+    @Override
+    public int maxPlayers() {
+        return 2;
+    }
+
+    @Override
+    public boolean nextUnlocked() {
+        return true;
     }
 }
