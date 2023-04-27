@@ -31,10 +31,26 @@ public class Blackjack extends Game {
 		
 		
 		frame = new JFrame();
-		JButton button = new JButton();
-		button .setBounds(700, 200, 100, 100);
-		button.addActionListener(e -> System.out.println("Working"));
-		button.setText("HIT");
+		JButton hitButton = new JButton();
+		JButton passButton = new JButton();
+		JButton doubleButton = new JButton();
+		JButton quitButton = new JButton();
+
+		hitButton .setBounds(700, 100, 200, 100);
+		hitButton.addActionListener(e -> System.out.println("Working"));
+		hitButton.setText("HIT");
+
+		passButton .setBounds(700, 250, 200, 100);
+		passButton.addActionListener(e -> System.out.println("Working"));
+		passButton.setText("PASS");
+
+		doubleButton .setBounds(700, 400, 200, 100);
+		doubleButton.addActionListener(e -> System.out.println("Working"));
+		doubleButton.setText("DOUBLE DOWN");
+
+		quitButton .setBounds(700, 550, 200, 100);
+		quitButton.addActionListener(e -> exit());
+		quitButton.setText("QUIT");
 
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame.setSize(1280, 720);
@@ -42,7 +58,10 @@ public class Blackjack extends Game {
 		frame.setResizable(false);
 		frame.setTitle("Blackjack");
 		
-		frame.add(button);
+		frame.add(hitButton);
+		frame.add(passButton);
+		frame.add(doubleButton);
+		frame.add(quitButton);
 		addWindowListener();
 		frame.setVisible(true);
 		
@@ -116,11 +135,11 @@ public class Blackjack extends Game {
 	public String getDescription() {
 		return "This is a standard game of Blackjack";
 	}
-	
+	/* 
 	public void exit() {
 		System.out.println("not done yet");
 	}
-	
+	*/
 	public String getHighScore() {
 		return "CHANGE THIS";
 	}
