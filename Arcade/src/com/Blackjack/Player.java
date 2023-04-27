@@ -87,7 +87,7 @@ public class Player {
 		playerPanel.setBackground(Color.green);
 	}
 	
-	public void updateSpace(JFrame frame) {
+	public void updateSpace(JFrame frame, String specialType) {
 		System.out.println("called");
 		JLabel label = new JLabel();
 		if (hand.size() <= 5) {
@@ -100,7 +100,12 @@ public class Player {
 		BufferedImage img = null;
 		System.out.println(("Arcade/src/com/Images/BlackjackCards/" + hand.get(hand.size() - 1).getURL()));
 		try {
-			URL url = Blackjack.class.getResource("/com/Images/BlackjackCards/" + hand.get(hand.size() - 1).getURL());
+			URL url;
+			if(specialType == "special1"){
+				url = Blackjack.class.getResource("/com/images/BlackjackCards/CardBack.png");
+			} else{
+				url = Blackjack.class.getResource("/com/Images/BlackjackCards/" + hand.get(hand.size() - 1).getURL());
+			}
 		    // img = ImageIO.read(new File(hand.get(hand.size() - 1).getURL()));
 			img = ImageIO.read(url);
 		} catch (IOException e) {
@@ -110,7 +115,12 @@ public class Player {
 		        Image.SCALE_SMOOTH);
 		ImageIcon image = new ImageIcon(dimg);
 		
-		totalLabel.setText("Total: " + getValue());
+
+		if(specialType == "none"){
+			totalLabel.setText("Total: " + getValue());
+		}else{
+			totalLabel.setText("Total: ? + " + (getValue() - hand.get(0).getValue()));
+		}
 		
 		label.setIcon(image);
 		label.setBackground(Color.blue);

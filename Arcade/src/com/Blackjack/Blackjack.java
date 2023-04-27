@@ -96,8 +96,13 @@ public class Blackjack extends Game {
 		while(game) {
 			
 			while(cycle < playerList.size()) {
-				hit(playerList.get(cycle), frame);
-				hit(playerList.get(cycle), frame);
+				if(cycle == 0){
+					hit(playerList.get(cycle), frame, "special1");
+					hit(playerList.get(cycle), frame, "special2");
+				} else{
+					hit(playerList.get(cycle), frame, "none");
+					hit(playerList.get(cycle), frame, "none");
+				}
 				cycle++;
 			}
 			while(round) {
@@ -105,7 +110,11 @@ public class Blackjack extends Game {
 				int completed = 0;
 				while (cycle1 < playerList.size()) {
 					if (playerList.get(cycle1).getValue() <= 21) {
-						hit(playerList.get(cycle1), frame);
+						if(cycle1 == 0){
+							hit(playerList.get(cycle), frame, "special2");
+						} else{
+							hit(playerList.get(cycle), frame, "none");
+						}
 						System.out.println("Player " + cycle1 + ": " + playerList.get(cycle1).getValue());
 						System.out.println(cycle1);
 					} else {
@@ -157,7 +166,7 @@ public class Blackjack extends Game {
 		return result;
 	}
 
-	public static void hit(Player currentPlayer, JFrame frame){
+	public static void hit(Player currentPlayer, JFrame frame, String specialType){
 		
 		Card result;
 		int choice;
@@ -165,7 +174,7 @@ public class Blackjack extends Game {
 		result = deck.get(choice);
 		deck.remove(choice);
 		currentPlayer.addCard(result);
-		currentPlayer.updateSpace(frame);
+		currentPlayer.updateSpace(frame, specialType);
 	}
 	
 	public static void printHand(List<Card> hand) {
@@ -227,8 +236,8 @@ public class Blackjack extends Game {
 		while(game) {
 			
 			while(cycle < playerList.size()) {
-				hit(playerList.get(cycle), frame);
-				hit(playerList.get(cycle), frame);
+				hit(playerList.get(cycle), frame, "none");
+				hit(playerList.get(cycle), frame, "none");
 				cycle++;
 			}
 			while(round) {
@@ -236,7 +245,7 @@ public class Blackjack extends Game {
 				int completed = 0;
 				while (cycle1 < playerList.size()) {
 					if (playerList.get(cycle1).getValue() <= 21) {
-						hit(playerList.get(cycle1), frame);
+						hit(playerList.get(cycle), frame, "none");
 						System.out.println("Player " + cycle1 + ": " + playerList.get(cycle1).getValue());
 						System.out.println(cycle1);
 					} else {
