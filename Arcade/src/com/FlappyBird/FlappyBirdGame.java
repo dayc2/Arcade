@@ -59,5 +59,9 @@ public class FlappyBirdGame extends Game{
         if(score > Integer.parseInt(games==null?"0":games.toString()))
             updateStat("High Score", score);
     }
+
+    public String getImage(){
+        return "FlappyBird.png";
+    }
     
 }

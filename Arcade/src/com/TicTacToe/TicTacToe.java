@@ -55,6 +55,7 @@ public class TicTacToe extends Game{
                                 buttonClicked.setText("O");
                                 board[row][col] = 'O';
                             }
+                            buttons[row][col].setFont(new Font("Arial", Font.PLAIN, frame.getWidth()/5));
                             turnsTaken++;
                             if (checkForWin() || checkForTie()) {
                                 endGame();
@@ -237,5 +238,10 @@ public class TicTacToe extends Game{
     @Override
     public boolean nextUnlocked() {
         return true;
+    }
+
+    public String getImage()
+    {
+        return "TicTacToe.png";
     }
 }
