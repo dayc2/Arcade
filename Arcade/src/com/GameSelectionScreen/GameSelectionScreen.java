@@ -27,6 +27,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.text.DefaultCaret;
 
 import com.Game;
+import com.JPanelButton;
 import com.testGame;
 import com.Blackjack.Blackjack;
 import com.Connect4.Connect4;
@@ -52,8 +53,8 @@ public class GameSelectionScreen{
     static Color DESELECTED = new Color(200, 200, 200);
     static Color HOVER = new Color(220, 220, 220);
     static Color DESCRIPTION = new Color(240, 240, 240);
-    static Color PLAY_BUTTON = new Color(0, 255, 0);
-    static Color STATS_BUTTON = new Color(255, 0, 255);
+    static Color PLAY_BUTTON = new Color(240, 240, 240);
+    static Color STATS_BUTTON = new Color(240, 240, 240);
     static Color STATS = new Color(240, 240, 240);
     static Color GAME = new Color(1, 43, 110);
     static Color BORDER = new Color(32, 35, 54);
@@ -221,8 +222,8 @@ public class GameSelectionScreen{
 
         private JPanel descriptionPanel;
         private JPanel imagePanel;
-        private JButton statsButton;
-        private JButton playButton;
+        private JPanelButton statsButton;
+        private JPanelButton playButton;
 
         private StatsPanel statsPanel;
         
@@ -259,21 +260,8 @@ public class GameSelectionScreen{
             add(descriptionPanel, c);
 
             c.fill = GridBagConstraints.HORIZONTAL;
-            playButton = new JButton("Play");
-            playButton.setVisible(false);
-            playButton.setBackground(PLAY_BUTTON);
-            c.gridx = 0;
-            c.gridy = 3;
-            c.gridwidth = 1;
-            c.gridheight = 1;
-            c.weightx = .5;
-            add(playButton, c);
-            playButton.setFocusable(false);
-            playButton.setVisible(false);
-            playButton.addActionListener(new ActionListener() {
-
-                @Override
-                public void actionPerformed(ActionEvent e) {
+            playButton = new JPanelButton("Play", PLAY_BUTTON){
+                public void onClick() {
                     if(selectionPanel.selected.game.paused){
                         int option = JOptionPane.showOptionDialog(frame, "Resume game?", "Resume Game?", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Cancel", "No", "Yes"}, null);
                         if(option == 2){
@@ -288,28 +276,49 @@ public class GameSelectionScreen{
                     }
                     int option = JOptionPane.showOptionDialog(frame, "How many players?", "How Many Players?", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, players, 0);
                     if(option > 0 && option < players.length){
-                        selectionPanel.selected.game.run(players.length-option);
                         frame.dispose();
+                        selectionPanel.selected.game.run(players.length-option);
                     }
                 }
-                
-            });
-
-            c.fill = GridBagConstraints.HORIZONTAL;
-            statsButton = new JButton("Stats");
-            statsButton.setVisible(false);
-            statsButton.setBackground(STATS_BUTTON);
-            c.gridx = 1;
+            };
+            playButton.setVisible(false);
+            c.gridx = 0;
             c.gridy = 3;
             c.gridwidth = 1;
             c.gridheight = 1;
             c.weightx = .5;
-            add(statsButton, c);
-            statsButton.setFocusable(false);
-            statsButton.addActionListener(new ActionListener() {
+            add(playButton, c);
+            playButton.setFocusable(false);
+            playButton.setVisible(false);
+            // playButton.addActionListener(new ActionListener() {
 
-                @Override
-                public void actionPerformed(ActionEvent e) {
+            //     @Override
+            //     public void actionPerformed(ActionEvent e) {
+            //         if(selectionPanel.selected.game.paused){
+            //             int option = JOptionPane.showOptionDialog(frame, "Resume game?", "Resume Game?", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Cancel", "No", "Yes"}, null);
+            //             if(option == 2){
+            //                 selectionPanel.selected.game.resume();
+            //                 return;
+            //             }
+            //         }
+            //         Object players[] = new Object[selectionPanel.selected.game.maxPlayers()+1];
+            //         players[0] = "Cancel";
+            //         for (int i = 1; i < players.length; i++) {
+            //             players[i] = players.length-i;
+            //         }
+            //         int option = JOptionPane.showOptionDialog(frame, "How many players?", "How Many Players?", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, players, 0);
+            //         if(option > 0 && option < players.length){
+            //             selectionPanel.selected.game.run(players.length-option);
+            //             frame.dispose();
+            //         }
+            //     }
+                
+            // });
+
+            c.fill = GridBagConstraints.HORIZONTAL;
+            statsButton = new JPanelButton("Stats") {
+                
+                public void onClick() {
                     if(!statsPanel.isVisible()){
                         playButton.setVisible(false);
                         imagePanel.setVisible(false);
@@ -323,10 +332,18 @@ public class GameSelectionScreen{
                         descriptionPanel.setVisible(true);
                         statsPanel.setVisible(false);
                         statsButton.setText("Stats");
-
                     }
                 }
-            });
+            };
+            statsButton.setVisible(false);
+            statsButton.setBackground(STATS_BUTTON);
+            c.gridx = 1;
+            c.gridy = 3;
+            c.gridwidth = 1;
+            c.gridheight = 1;
+            c.weightx = .5;
+            add(statsButton, c);
+            statsButton.setFocusable(false);
 
             statsPanel = new StatsPanel();
             c.fill = GridBagConstraints.BOTH;

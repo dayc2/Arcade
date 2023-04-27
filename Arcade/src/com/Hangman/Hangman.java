@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import com.Game;
+import com.JPanelButton;
 
 
 public class Hangman extends Game{
@@ -224,15 +225,18 @@ public class Hangman extends Game{
     public JPanel buttons() {
         JPanel buttons = new JPanel();
         ArrayList<JButton> letters = new ArrayList<JButton>();
-        
+        buttons.setLayout(new GridLayout(3,1,1,1));
         int count = 0;
-        for(String letter : HangmanAI.alphabet) {
-            letters.add(new JButton());
-            letters.get(count).setText(letter);
-            letters.get(count).addActionListener(new ActionListener() {
-
-                @Override
-                public void actionPerformed(ActionEvent e) {
+        JPanel p1 = new JPanel(new GridLayout(1,10,1,1));
+        JPanel p2 = new JPanel(new GridLayout(1,9,1,1));
+        JPanel p3 = new JPanel(new GridLayout(1,7,1,1));
+        buttons.add(p1);
+        buttons.add(p2);
+        buttons.add(p3);
+        for(int i = 0; i < HangmanAI.alphabet.size(); i++) {
+            String letter = HangmanAI.alphabet.get(i);
+            JPanelButton temp = new JPanelButton(letter){
+                public void onClick(){
                     HangmanAI.guess(letter);
                     getImg(imgPanel, HangmanAI.strikes);
                     if(HangmanAI.checkLose()) {
@@ -245,9 +249,36 @@ public class Hangman extends Game{
                         exit();
                     }
                 }
+            };
+            temp.setSize(10, 10);
+            if(i < 9)
+                p1.add(temp);
+            else if(i < 18)
+                p2.add(temp);
+            else
+                p3.add(temp);
+            // buttons.add(temp);
+            // letters.add(new JButton());
+            // letters.get(count).setText(letter);
+            // letters.get(count).addActionListener(new ActionListener() {
+
+            //     @Override
+            //     public void actionPerformed(ActionEvent e) {
+            //         HangmanAI.guess(letter);
+            //         getImg(imgPanel, HangmanAI.strikes);
+            //         if(HangmanAI.checkLose()) {
+            //             exit();
+            //             playagain();
+            //         }
+            //         if(HangmanAI.checkWin()) {
+            //             Object games = getStat("Games Won");
+            //             updateStat("Games Won", Integer.parseInt(games.toString())+1);
+            //             exit();
+            //         }
+            //     }
                 
-            });
-            buttons.add(letters.get(count));
+            // });
+            // buttons.add(letters.get(count));
             count++;
         }
         return buttons;

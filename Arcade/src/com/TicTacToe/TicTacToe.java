@@ -3,6 +3,7 @@ package com.TicTacToe;
 import javax.swing.*;
 
 import com.Game;
+import com.JPanelButton;
 import com.GameSelectionScreen.GameSelectionScreen;
 
 import java.awt.*;
@@ -11,7 +12,7 @@ import java.util.Random;
 
 public class TicTacToe extends Game{
 	
-    private JButton[][] buttons;
+    private JPanelButton[][] buttons;
     char[][] board;
     
     private boolean playerOneTurn = true;
@@ -21,21 +22,15 @@ public class TicTacToe extends Game{
     private boolean playAgainstBot;
 
     public TicTacToe() {
-        buttons = new JButton[3][3];
+        buttons = new JPanelButton[3][3];
     }
 
     private void initializeButtons() {
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
-                buttons[row][col] = new JButton();
-                if(board[row][col] != 0){
-                    buttons[row][col].setText(Character.toString(board[row][col]));
-                }
-                buttons[row][col].addActionListener(new ActionListener() {
-
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        JButton buttonClicked = (JButton)e.getSource();
+                buttons[row][col] = new JPanelButton(){
+                    public void onClick(){
+                        JPanelButton buttonClicked = this;
                         int row = 0, col = 0;
                         for (int i = 0; i < board.length; i++) {
                             for (int j = 0; j < board.length; j++) {
@@ -55,7 +50,7 @@ public class TicTacToe extends Game{
                                 buttonClicked.setText("O");
                                 board[row][col] = 'O';
                             }
-                            buttons[row][col].setFont(new Font("Arial", Font.PLAIN, frame.getWidth()/5));
+                            buttons[row][col].setTextFont(new Font("Arial", Font.PLAIN, frame.getWidth()/5));
                             turnsTaken++;
                             if (checkForWin() || checkForTie()) {
                                 endGame();
@@ -67,9 +62,50 @@ public class TicTacToe extends Game{
                             }
                         }
                     }
+                };
+
+                if(board[row][col] != 0){
+                    buttons[row][col].setText(Character.toString(board[row][col]));
+                }
+                // buttons[row][col].addActionListener(new ActionListener() {
+
+                //     @Override
+                //     public void actionPerformed(ActionEvent e) {
+                //         JButton buttonClicked = (JButton)e.getSource();
+                //         int row = 0, col = 0;
+                //         for (int i = 0; i < board.length; i++) {
+                //             for (int j = 0; j < board.length; j++) {
+                //                 if(buttonClicked == buttons[i][j]) {
+                //                     row = i;
+                //                     col = j;
+                //                     i = 3;
+                //                     break;
+                //                 }
+                //             }
+                //         }
+                //         if (board[row][col] == 0) {
+                //             if (playerOneTurn) {
+                //                 buttonClicked.setText("X");
+                //                 board[row][col] = 'X';
+                //             } else {
+                //                 buttonClicked.setText("O");
+                //                 board[row][col] = 'O';
+                //             }
+                //             buttons[row][col].setFont(new Font("Arial", Font.PLAIN, frame.getWidth()/5));
+                //             turnsTaken++;
+                //             if (checkForWin() || checkForTie()) {
+                //                 endGame();
+                //             } else {
+                //                 playerOneTurn = !playerOneTurn;
+                //                 if (playAgainstBot && !playerOneTurn) {
+                //                     makeBotMove();
+                //                 }
+                //             }
+                //         }
+                //     }
                     
-                });
-                buttons[row][col].setFont(new Font("Arial", Font.PLAIN, frame.getWidth()/5));
+                // });
+                buttons[row][col].setTextFont(new Font("Arial", Font.PLAIN, frame.getWidth()/5));
                 buttons[row][col].setFocusable(false);
                 frame.add(buttons[row][col]);
             }
@@ -181,11 +217,6 @@ public class TicTacToe extends Game{
         } else {
             playerOneTurn = !playerOneTurn;
         }
-    }
-
-    public static void main(String[] args) {
-        // TicTacToe game = new TicTacToe();
-        new GameSelectionScreen();
     }
 
     @Override
