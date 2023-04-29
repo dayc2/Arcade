@@ -25,32 +25,23 @@ import com.Game;
 public class Blackjack extends Game {
 	public static List<Card> deck = new ArrayList<Card>();
 	public List<Player> playerList;
-	int players;
+	int currentPlayer = 1;
+	JFrame frame;
+	/* 
+	JButton hitButton;
+	JButton passButton;
+	JButton doubleButton;
+	JButton quitButton;
+	*/
 	
 	public void run(int players) {
 		
-		
+		this.players = players;
+
+		playerList = new ArrayList<>(); 
 		frame = new JFrame();
-		JButton hitButton = new JButton();
-		JButton passButton = new JButton();
-		JButton doubleButton = new JButton();
-		JButton quitButton = new JButton();
 
-		hitButton .setBounds(700, 100, 200, 100);
-		hitButton.addActionListener(e -> System.out.println("Working"));
-		hitButton.setText("HIT");
-
-		passButton .setBounds(700, 250, 200, 100);
-		passButton.addActionListener(e -> System.out.println("Working"));
-		passButton.setText("PASS");
-
-		doubleButton .setBounds(700, 400, 200, 100);
-		doubleButton.addActionListener(e -> System.out.println("Working"));
-		doubleButton.setText("DOUBLE DOWN");
-
-		quitButton .setBounds(700, 550, 200, 100);
-		quitButton.addActionListener(e -> exit());
-		quitButton.setText("QUIT");
+		gameSetup();
 
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame.setSize(1280, 720);
@@ -58,41 +49,29 @@ public class Blackjack extends Game {
 		frame.setResizable(false);
 		frame.setTitle("Blackjack");
 		
-		frame.add(hitButton);
-		frame.add(passButton);
-		frame.add(doubleButton);
-		frame.add(quitButton);
-		addWindowListener();
 		frame.setVisible(true);
 		
 		
-		playerList = new ArrayList<>(); 
 		
 		int cycle = 0;
-		boolean game = true;
-		boolean round = true;
-		this.players = players;
-		while(cycle <= players) {
-			
-			playerList.add(new Player());
-			if (cycle == 1) {
-				playerList.get(cycle).makeSpace(frame, 0, 0, "PLAYER ONE");
-			} else if (cycle == 2) {
-				playerList.get(cycle).makeSpace(frame, 320, 0, "PLAYER TWO");
-			} else if (cycle == 3) {
-				playerList.get(cycle).makeSpace(frame, 0, 360, "PLAYER THREE");
-			} else if (cycle == 4) {
-				playerList.get(cycle).makeSpace(frame, 320, 360, "PLAYER FOUR");
-			} else {
-				playerList.get(cycle).makeSpace(frame, 946, 0, "DEALER");
+		
+		
+		
+		deck = createDeck();
+		cycle = 0;
+
+		while(cycle < playerList.size()) {
+			if(cycle == 0){
+				hit(playerList.get(cycle), frame, "special1");
+				hit(playerList.get(cycle), frame, "special2");
+			} else{
+				hit(playerList.get(cycle), frame, "none");
+				hit(playerList.get(cycle), frame, "none");
 			}
 			cycle++;
 		}
-		
-		deck = createDeck();
-		
-		cycle = 0;
 
+		/* 
 		while(game) {
 			
 			while(cycle < playerList.size()) {
@@ -105,6 +84,7 @@ public class Blackjack extends Game {
 				}
 				cycle++;
 			}
+
 			while(round) {
 				int cycle1 = 0;
 				int completed = 0;
@@ -128,6 +108,7 @@ public class Blackjack extends Game {
 			}
 			game = false;
 		}
+
 		cycle = 0;
 		while(cycle  < playerList.size()) {
 			printHand(playerList.get(cycle).getHand());
@@ -135,7 +116,7 @@ public class Blackjack extends Game {
 			System.out.println("");
 			cycle++;
 		}
-		
+		*/
 		
 		
 		
@@ -166,21 +147,28 @@ public class Blackjack extends Game {
 		return result;
 	}
 
-	public static void hit(Player currentPlayer, JFrame frame, String specialType){
-		
+	public void hit(Player givenPlayer, JFrame frame, String specialType){
+		System.out.println(currentPlayer);
 		Card result;
 		int choice;
 		choice = (int)(Math.random() * (deck.size() - 1));
 		result = deck.get(choice);
 		deck.remove(choice);
-		currentPlayer.addCard(result);
-		currentPlayer.updateSpace(frame, specialType);
+		givenPlayer.addCard(result);
+		givenPlayer.updateSpace(frame, specialType);
+		if(specialType == "none"){
+			if(currentPlayer == players){
+				currentPlayer = 1;
+			}else{
+				currentPlayer++;
+			}
+		}
 	}
 	
 	public static void printHand(List<Card> hand) {
 		int cycle = 0;
 		while(cycle < hand.size()) {
-			System.out.println(hand.get(cycle).getType() + " of " + hand.get(cycle).getSuit());
+			//System.out.println(hand.get(cycle).getType() + " of " + hand.get(cycle).getSuit());
 			cycle++;
 		}
 	}
@@ -284,6 +272,67 @@ public class Blackjack extends Game {
             return true;
 		 */
 		return false;
+	}
+
+	public void gameSetup(){
+
+
+		System.out.println("Called");
+		frame.getContentPane().removeAll();
+		frame.revalidate();
+		frame.repaint();
+
+		JButton hitButton = new JButton();
+		JButton passButton = new JButton();
+		JButton doubleButton = new JButton();
+		JButton quitButton = new JButton();
+
+		hitButton .setBounds(700, 100, 200, 100);
+		hitButton.addActionListener(e -> hit(playerList.get(currentPlayer), frame, "none"));
+		hitButton.setText("HIT");
+
+		passButton .setBounds(700, 250, 200, 100);
+		passButton.addActionListener(e -> System.out.println("Working"));
+		passButton.setText("PASS");
+
+		doubleButton .setBounds(700, 400, 200, 100);
+		doubleButton.addActionListener(e -> System.out.println("Working"));
+		doubleButton.setText("DOUBLE DOWN");
+
+		quitButton .setBounds(700, 550, 200, 100);
+		quitButton.addActionListener(e -> exitGame());
+		quitButton.setText("QUIT");
+
+		frame.add(hitButton);
+		frame.add(passButton);
+		frame.add(doubleButton);
+		frame.add(quitButton);
+
+		frame.revalidate();
+		frame.repaint();
+
+		int cycle = 0;
+		while(cycle <= players) {
+			
+			playerList.add(new Player());
+			if (cycle == 1) {
+				playerList.get(cycle).makeSpace(frame, 0, 0, "PLAYER ONE");
+			} else if (cycle == 2) {
+				playerList.get(cycle).makeSpace(frame, 320, 0, "PLAYER TWO");
+			} else if (cycle == 3) {
+				playerList.get(cycle).makeSpace(frame, 0, 360, "PLAYER THREE");
+			} else if (cycle == 4) {
+				playerList.get(cycle).makeSpace(frame, 320, 360, "PLAYER FOUR");
+			} else {
+				playerList.get(cycle).makeSpace(frame, 946, 0, "DEALER");
+			}
+			cycle++;
+		}
+	}
+
+	public void exitGame(){
+		exit();
+		frame.dispose();
 	}
 }
 

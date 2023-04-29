@@ -88,7 +88,7 @@ public class Player {
 	}
 	
 	public void updateSpace(JFrame frame, String specialType) {
-		System.out.println("called");
+		//System.out.println("called");
 		JLabel label = new JLabel();
 		if (hand.size() <= 5) {
 			label.setBounds(((hand.size() - 1) * 64), 0, 64, 93);
@@ -98,7 +98,7 @@ public class Player {
 			label.setBounds(((hand.size() - 11) * 64), 186, 64, 93);
 		}
 		BufferedImage img = null;
-		System.out.println(("Arcade/src/com/Images/BlackjackCards/" + hand.get(hand.size() - 1).getURL()));
+		//System.out.println(("Arcade/src/com/Images/BlackjackCards/" + hand.get(hand.size() - 1).getURL()));
 		try {
 			URL url;
 			if(specialType == "special1"){
