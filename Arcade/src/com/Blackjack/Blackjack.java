@@ -70,55 +70,6 @@ public class Blackjack extends Game {
 			}
 			cycle++;
 		}
-
-		/* 
-		while(game) {
-			
-			while(cycle < playerList.size()) {
-				if(cycle == 0){
-					hit(playerList.get(cycle), frame, "special1");
-					hit(playerList.get(cycle), frame, "special2");
-				} else{
-					hit(playerList.get(cycle), frame, "none");
-					hit(playerList.get(cycle), frame, "none");
-				}
-				cycle++;
-			}
-
-			while(round) {
-				int cycle1 = 0;
-				int completed = 0;
-				while (cycle1 < playerList.size()) {
-					if (playerList.get(cycle1).getValue() <= 21) {
-						if(cycle1 == 0){
-							hit(playerList.get(cycle), frame, "special2");
-						} else{
-							hit(playerList.get(cycle), frame, "none");
-						}
-						System.out.println("Player " + cycle1 + ": " + playerList.get(cycle1).getValue());
-						System.out.println(cycle1);
-					} else {
-						completed++;
-					}
-					cycle1++;
-				}
-				if (cycle1 - completed == 0) {
-					round = false;
-				}
-			}
-			game = false;
-		}
-
-		cycle = 0;
-		while(cycle  < playerList.size()) {
-			printHand(playerList.get(cycle).getHand());
-			System.out.println(playerList.get(cycle).getValue());
-			System.out.println("");
-			cycle++;
-		}
-		*/
-		
-		
 		
 	}
 	
@@ -180,11 +131,12 @@ public class Blackjack extends Game {
 
 	@Override
 	public void resume() {
+		this.players = players;
+
+		playerList = new ArrayList<>(); 
 		frame = new JFrame();
-		JButton button = new JButton();
-		button .setBounds(700, 200, 100, 100);
-		button.addActionListener(e -> System.out.println("Working"));
-		button.setText("HIT");
+
+		gameSetup();
 
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame.setSize(1280, 720);
@@ -192,66 +144,25 @@ public class Blackjack extends Game {
 		frame.setResizable(false);
 		frame.setTitle("Blackjack");
 		
-		frame.add(button);
-		addWindowListener();
 		frame.setVisible(true);
-
-		playerList = new ArrayList<>(); 
-
+		
+		
+		
 		int cycle = 0;
-		boolean game = true;
-		boolean round = true;
-		int players = this.players;
-		while(cycle <= players) {
-			
-			playerList.add(new Player());
-			if (cycle == 1) {
-				playerList.get(cycle).makeSpace(frame, 0, 0, "PLAYER ONE");
-			} else if (cycle == 2) {
-				playerList.get(cycle).makeSpace(frame, 320, 0, "PLAYER TWO");
-			} else if (cycle == 3) {
-				playerList.get(cycle).makeSpace(frame, 0, 360, "PLAYER THREE");
-			} else if (cycle == 4) {
-				playerList.get(cycle).makeSpace(frame, 320, 360, "PLAYER FOUR");
-			} else {
-				playerList.get(cycle).makeSpace(frame, 946, 0, "DEALER");
-			}
-			cycle++;
-		}
-				
+		
+		
+		
+		deck = createDeck();
 		cycle = 0;
 
-		while(game) {
-			
-			while(cycle < playerList.size()) {
+		while(cycle < playerList.size()) {
+			if(cycle == 0){
+				hit(playerList.get(cycle), frame, "special1");
+				hit(playerList.get(cycle), frame, "special2");
+			} else{
 				hit(playerList.get(cycle), frame, "none");
 				hit(playerList.get(cycle), frame, "none");
-				cycle++;
 			}
-			while(round) {
-				int cycle1 = 0;
-				int completed = 0;
-				while (cycle1 < playerList.size()) {
-					if (playerList.get(cycle1).getValue() <= 21) {
-						hit(playerList.get(cycle), frame, "none");
-						System.out.println("Player " + cycle1 + ": " + playerList.get(cycle1).getValue());
-						System.out.println(cycle1);
-					} else {
-						completed++;
-					}
-					cycle1++;
-				}
-				if (cycle1 - completed == 0) {
-					round = false;
-				}
-			}
-			game = false;
-		}
-		cycle = 0;
-		while(cycle  < playerList.size()) {
-			printHand(playerList.get(cycle).getHand());
-			System.out.println(playerList.get(cycle).getValue());
-			System.out.println("");
 			cycle++;
 		}
 	}
