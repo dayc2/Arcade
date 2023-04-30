@@ -234,6 +234,11 @@ public class TicTacToe extends Game{
         Object stat = getStat("Single Player Games Won");
         if(stat == null)
             updateStat("Single Player Games Won", 0);
+        stat = getStat("Single Player Games Played");
+        if(stat == null)
+            updateStat("Single Player Games Won", 0);
+        else
+            updateStat("Single Player Games Won", stat);
         stat = getStat("Two Player Games Won");
             if(stat == null)
                 updateStat("Two Player Games Won", 0);
