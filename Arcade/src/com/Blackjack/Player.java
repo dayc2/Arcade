@@ -179,7 +179,6 @@ public class Player {
 				} else{
 					url = Blackjack.class.getResource("/com/Images/BlackjackCards/" + hand.get(hand.size() - 1).getURL());
 				}
-				System.out.println(url);
 			    // img = ImageIO.read(new File(hand.get(hand.size() - 1).getURL()));
 				img = ImageIO.read(url);
 			} catch (IOException e) {
