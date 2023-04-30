@@ -325,7 +325,7 @@ public class Blackjack extends Game {
 			cycle++;
 		}
 
-		hitButton.setVisible(false);
+		//hitButton.setVisible(false);
 		return result;
 	}
 	
