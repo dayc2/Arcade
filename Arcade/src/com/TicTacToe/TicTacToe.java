@@ -264,6 +264,7 @@ public class TicTacToe extends Game{
         // playAgainstBot = result == JOptionPane.YES_OPTION;
 
         frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
     }
 
     @Override

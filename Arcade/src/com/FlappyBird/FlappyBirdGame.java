@@ -34,6 +34,7 @@ public class FlappyBirdGame extends Game{
         frame = new JFrame();
         addWindowListener();
         FlappyBird g = new FlappyBird(frame);
+        frame.setLocationRelativeTo(null);
         // exit();
     }
 
