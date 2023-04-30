@@ -114,7 +114,6 @@ public class Hangman extends Game{
             @Override
             public void keyReleased(java.awt.event.KeyEvent e) {
                 if(!HangmanAI.alphabet.contains(e.getKeyChar()+"")) return;
-                System.out.println(e.getKeyChar());
                 HangmanAI.guess(e.getKeyChar()+"");
                     getImg(imgPanel, HangmanAI.strikes);
                     if(HangmanAI.checkLose()) {

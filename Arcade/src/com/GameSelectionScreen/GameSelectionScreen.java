@@ -28,7 +28,6 @@ import javax.swing.text.DefaultCaret;
 
 import com.Game;
 import com.JPanelButton;
-import com.testGame;
 import com.Blackjack.Blackjack;
 import com.Connect4.Connect4;
 import com.FlappyBird.FlappyBirdGame;
@@ -46,7 +45,7 @@ public class GameSelectionScreen{
     private GamePanel gamePanel;
 
     // Add any new games to this list
-    static Game[] GameList = new Game[]{new Connect4(), new TicTacToe(), new FlappyBirdGame(), new Hangman(), new Blackjack(), new testGame()};
+    static Game[] GameList = new Game[]{new Connect4(), new TicTacToe(), new FlappyBirdGame(), new Hangman(), new Blackjack()};
 
     static Color MAIN_BACKGROUND = new Color(1, 43, 110);
     static Color SELECTED = new Color(255, 255, 255);

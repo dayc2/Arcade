@@ -9,15 +9,15 @@ class word {
 	public ArrayList<String> display = new ArrayList<String>(HangmanAI.answer);
 	
 	public static void display() {
-		System.out.println(HangmanAI.alphabet.toString());
+		// System.out.println(HangmanAI.alphabet.toString());
 	}
 
 	public static void correctDisplay(ArrayList<String> correct, int index, String letter) {
 		correct.add(index, letter + " ");
 		correct.remove(index + 1);
-		System.out.println(correct.toString());
-		if(!(correct.contains("_ ")))
-			System.out.println("You Win!");
+		// System.out.println(correct.toString());
+		// if(!(correct.contains("_ ")))
+		// 	System.out.println("You Win!");
 	}
 	
 	public static void correctDisplay(ArrayList<String> correct) {
@@ -64,7 +64,6 @@ public class HangmanAI {
 				workingAnswer.add(answer.get(i));
 				correctGuess.add("");
 			}
-			System.out.println(temp);
 			
 			return answer;
 		}
