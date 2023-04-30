@@ -229,10 +229,12 @@ public class Hangman extends Game{
         int count = 0;
         JPanel p1 = new JPanel(new GridLayout(1,10,1,1));
         JPanel p2 = new JPanel(new GridLayout(1,9,1,1));
-        JPanel p3 = new JPanel(new GridLayout(1,7,1,1));
+        JPanel p3 = new JPanel(new GridLayout(1,7,1,2));
         buttons.add(p1);
         buttons.add(p2);
         buttons.add(p3);
+        p2.add(new JPanel());
+        p3.add(new JPanel());
         for(int i = 0; i < HangmanAI.alphabet.size(); i++) {
             String letter = HangmanAI.alphabet.get(i);
             JPanelButton temp = new JPanelButton(letter){
@@ -251,9 +253,9 @@ public class Hangman extends Game{
                 }
             };
             temp.setSize(10, 10);
-            if(i < 9)
+            if(i < 10)
                 p1.add(temp);
-            else if(i < 18)
+            else if(i < 19)
                 p2.add(temp);
             else
                 p3.add(temp);
@@ -281,6 +283,8 @@ public class Hangman extends Game{
             // buttons.add(letters.get(count));
             count++;
         }
+        p2.add(new JPanel());
+        p3.add(new JPanel());
         return buttons;
     }
 
