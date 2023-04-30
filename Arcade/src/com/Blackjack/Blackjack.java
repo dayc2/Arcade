@@ -79,7 +79,7 @@ public class Blackjack extends Game {
 	}
 
 	public void hit(Player givenPlayer, JFrame frame, String specialType){
-		System.out.println(currentPlayer);
+		//System.out.println(currentPlayer);
 		Card result;
 		int choice;
 		int checks = 0;
