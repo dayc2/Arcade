@@ -7,8 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
-
+import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
 
 import com.Game;
 
@@ -35,7 +34,7 @@ public class Blackjack extends Game {
 
 		gameSetup();
 
-		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		frame.setSize(1280, 720);
 		frame.setLayout(null);
 		frame.setResizable(false);
@@ -88,6 +87,7 @@ public class Blackjack extends Game {
 		deck.remove(choice);
 		givenPlayer.addCard(result);
 		givenPlayer.updateSpace(frame, specialType);
+
 		if(specialType == "none"){
 			while(checks < 7){
 				if(currentPlayer == players){
@@ -107,6 +107,8 @@ public class Blackjack extends Game {
 				playerList.get(0).updateSpace(frame, "special3");
 				winnerLabel.setText(findWinner());
 				frame.add(winnerLabel);
+				hitButton.setEnabled(false);
+				passButton.setEnabled(false);
 		
 				frame.revalidate();
 				frame.repaint();
@@ -141,7 +143,7 @@ public class Blackjack extends Game {
 
 		gameSetup();
 
-		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		frame.setSize(1280, 720);
 		frame.setLayout(null);
 		frame.setResizable(false);
@@ -198,10 +200,10 @@ public class Blackjack extends Game {
 		frame.repaint();
 
 		turnLabel = new JLabel();
-		JButton hitButton = new JButton();
-		JButton passButton = new JButton();
-		JButton doubleButton = new JButton();
-		JButton quitButton = new JButton();
+		hitButton = new JButton();
+		passButton = new JButton();
+		doubleButton = new JButton();
+		quitButton = new JButton();
 		winnerLabel = new JLabel();
 
 		winnerLabel.setBounds(960, 540, 320, 180);
@@ -301,7 +303,8 @@ public class Blackjack extends Game {
 			frame.revalidate();
 			frame.repaint();
 
-			exitGame();
+			hitButton.setEnabled(false);
+			passButton.setEnabled(false);
 		}
 		turnLabel.setText("It is Player " + currentPlayer + "'s turn");
 		frame.revalidate();
@@ -325,7 +328,7 @@ public class Blackjack extends Game {
 			cycle++;
 		}
 
-		//hitButton.setVisible(false);
+		hitButton.setEnabled(false);
 		return result;
 	}
 	
