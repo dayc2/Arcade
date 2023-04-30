@@ -31,7 +31,7 @@ public class Blackjack extends Game {
 		this.players = players;
 
 		playerList = new ArrayList<>(); 
-		frame = new JFrame();
+		
 
 		gameSetup();
 
@@ -52,12 +52,16 @@ public class Blackjack extends Game {
 	public String getDescription() {
 		return "This is a standard game of Blackjack";
 	}
+
+	public String getImage(){
+        return "blackjack.png";
+    }
 	/* 
 	public void exit() {
 		System.out.println("not done yet");
 	}
 	*/
-	public String getHighScore() {
+	public String getStats() {
 		return "CHANGE THIS";
 	}
 		
@@ -103,10 +107,11 @@ public class Blackjack extends Game {
 				playerList.get(0).updateSpace(frame, "special3");
 				winnerLabel.setText(findWinner());
 				frame.add(winnerLabel);
+		
 				frame.revalidate();
 				frame.repaint();
 
-				exitGame();
+				//exitGame();
 			}
 			turnLabel.setText("It is Player " + currentPlayer + "'s turn");
 			frame.revalidate();
@@ -186,6 +191,7 @@ public class Blackjack extends Game {
 	public void gameSetup(){
 
 		currentPlayer = 1;
+		frame = new JFrame();
 
 		frame.getContentPane().removeAll();
 		frame.revalidate();
@@ -202,7 +208,7 @@ public class Blackjack extends Game {
 
 		turnLabel.setBounds(960, 360, 320, 180);
 
-		hitButton .setBounds(700, 100, 200, 100);
+		hitButton.setBounds(700, 100, 200, 100);
 		hitButton.addActionListener(e -> hit(playerList.get(currentPlayer), frame, "none"));
 		hitButton.setText("HIT");
 
@@ -266,8 +272,8 @@ public class Blackjack extends Game {
 		}
 
 	public void exitGame(){
-		exit();
 		frame.dispose();
+		exit();
 	}
 
 	public void pass(){
@@ -310,16 +316,19 @@ public class Blackjack extends Game {
 			if((playerList.get(cycle).getValue() > highest) && (playerList.get(cycle).getValue() < 22) && (cycle == 0)){
 				highest = playerList.get(cycle).getValue();
 				result = ("The Winner is the dealer");
-			} if((playerList.get(cycle).getValue() > highest) && (playerList.get(cycle).getValue() < 22)){
+			}else if((playerList.get(cycle).getValue() > highest) && (playerList.get(cycle).getValue() < 22)){
 				highest = playerList.get(cycle).getValue();
 				result = ("The Winner is Player " + cycle);
 			} else if(playerList.get(cycle).getValue() == highest){
-				result = ("It is a tie between " + result.substring(14) + "and player " + cycle);
+				result = ("It is a tie between " + result.substring(14) + " and player " + cycle);
 			} 
 			cycle++;
 		}
+
+		hitButton.setVisible(false);
 		return result;
 	}
+	
 }
 
 
