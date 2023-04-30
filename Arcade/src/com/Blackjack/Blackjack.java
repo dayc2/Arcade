@@ -43,7 +43,8 @@ public class Blackjack extends Game {
 		frame.setVisible(true);
 		
 		
-		
+        Object games = getStat("Games Played");
+        updateStat("Games Played", Integer.parseInt(games==null?"0":games.toString())+1);
 		
 		
 	}
@@ -61,7 +62,8 @@ public class Blackjack extends Game {
 	}
 	*/
 	public String getStats() {
-		return "CHANGE THIS";
+		//return ("Games played: " + gamesPlayed);
+		return "CHANGE";
 	}
 		
 	public static List<Card> createDeck() {
