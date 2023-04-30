@@ -60,11 +60,12 @@ public class Blackjack extends Game {
 	public void exit() {
 		System.out.println("not done yet");
 	}
-	*/
+	
 	public String getStats() {
 		//return ("Games played: " + gamesPlayed);
 		return "CHANGE";
 	}
+	*/
 		
 	public static List<Card> createDeck() {
 		
