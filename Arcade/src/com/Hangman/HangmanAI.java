@@ -38,8 +38,10 @@ public class HangmanAI {
 	public static ArrayList<String> picker() throws FileNotFoundException {
 		String temp = "";
 		strikes = 0;
-		try (Scanner sc = new Scanner(new File("Arcade/src/com/Hangman/wordReserve.txt"))) {
-			Scanner sc2 = new Scanner(new File("Arcade/src/com/Hangman/wordReserve.txt"));
+		try (Scanner sc = new Scanner(HangmanAI.class.getResourceAsStream("WordReserve.txt"))) {
+			Scanner sc2 = new Scanner(HangmanAI.class.getResourceAsStream("WordReserve.txt"));
+			sc.useDelimiter("\n");
+			sc2.useDelimiter("\n");
 			int num = 0;
 			while(sc2.hasNext()) {
 				num++;
@@ -64,7 +66,7 @@ public class HangmanAI {
 				workingAnswer.add(answer.get(i));
 				correctGuess.add("");
 			}
-			
+			System.out.println(answer.toString());
 			return answer;
 		}
 	}

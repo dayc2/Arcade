@@ -9,7 +9,7 @@ public class FlappyBirdGame extends Game{
     static FlappyBirdGame g;
     @Override
     public String getDescription() {
-        return "Flappy Bird";
+        return "This is a single player game where the player will try to fly as far as possible without hitting a pipe.";
     }
 
     @Override

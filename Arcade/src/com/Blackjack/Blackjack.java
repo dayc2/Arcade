@@ -50,7 +50,7 @@ public class Blackjack extends Game {
 	}
 	
 	public String getDescription() {
-		return "This is a standard game of Blackjack";
+		return "This is a standard game of Blackjack with up to 4 players. The goal is to get as close to 21 as possible without going over.";
 	}
 
 	public String getImage(){

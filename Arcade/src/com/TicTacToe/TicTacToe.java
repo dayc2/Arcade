@@ -221,7 +221,7 @@ public class TicTacToe extends Game{
 
     @Override
     public String getDescription() {
-        return "Tic Tac Toe";
+        return "Each player takes turns placing either an X or an O on the board. The first player to get three in a row wins.";
     }
 
     @Override
